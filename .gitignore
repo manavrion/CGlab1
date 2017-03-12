@@ -27,3 +27,8 @@
 *.exe
 *.out
 *.app
+/CGlab1/.vs/CGlab1/v15
+/CGlab1/Debug
+/CGlab1/Release
+/CGlab1/x64
+/.vs
