@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="GraphElements">
+      <UniqueIdentifier>{d20a39e6-223c-49be-822b-598d38dcc7e9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -27,14 +30,27 @@
     <ClInclude Include="Lab2.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="GraphLine.h" />
+    <ClInclude Include="GraphElement.h">
+      <Filter>GraphElements</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphPoint.h">
+      <Filter>GraphElements</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphXYZ.h">
+      <Filter>GraphElements</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowPlate.h">
+      <Filter>GraphElements</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphWrapLine.h" />
+    <ClInclude Include="GraphWrapPoint.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Lab2.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
+    <ClCompile Include="Lab2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Lab2.rc">
@@ -53,5 +69,10 @@
     <Text Include="ReadMe.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Lab2.exe.manifest">
+      <Filter>Файлы ресурсов</Filter>
+    </Manifest>
   </ItemGroup>
 </Project>

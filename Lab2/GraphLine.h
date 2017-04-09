@@ -5,7 +5,10 @@
 
 struct GraphLine : public GraphElement {
 
-	GraphLine(GraphPoint a, GraphPoint b, Color color, int width = 2) : a(a), b(b), width(width), GraphElement(color) {};
+	GraphLine(GraphPoint a, GraphPoint b, Color color, int width = 2) : a(a), b(b), width(width), GraphElement(color) {
+		a.color = color;
+		b.color = color;
+	};
 
 	GraphPoint a;
 	GraphPoint b;

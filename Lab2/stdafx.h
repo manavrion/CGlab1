@@ -19,3 +19,17 @@
 
 
 // TODO: Установите здесь ссылки на дополнительные заголовки, требующиеся для программы
+
+#include <CommCtrl.h>
+
+#include <objidl.h>
+#include <gdiplus.h>
+#pragma comment (lib,"Gdiplus.lib")
+
+using namespace std;
+
+#include <vector>
+#include <string>
+#include <functional>
+
+using namespace Gdiplus;
