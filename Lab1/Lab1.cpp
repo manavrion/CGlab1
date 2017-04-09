@@ -3,7 +3,13 @@
 
 #include "stdafx.h"
 #include "Lab1.h"
-#include "GraphElements.h"
+
+#include "WindowPlate.h"
+#include "GraphElement.h"
+#include "GraphLine.h"
+#include "GraphPoint.h"
+#include "GraphWrapPoint.h"
+#include "GraphXYZ.h"
 
 INT_PTR CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -26,101 +32,21 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     return 0;
 }
 
-//--------------------------------------------------------------------------------------
-// GDI+
-//--------------------------------------------------------------------------------------
-
-class WindowPlate {
-public:
-    WindowPlate(function<void(Graphics&, PointF)> paint) : paint(paint) {
-        bufferSize = Size(350, 350);
-
-        //init backBuffer
-        backBuffer = new byte[bufferSize.Width * bufferSize.Height * 4];
-        backBufferHBitmap = CreateBitmap(bufferSize.Width, bufferSize.Height, 1, 32, backBuffer);
-
-        //init HDC
-        backBufferHDC = CreateCompatibleDC(nullptr);
-        SelectObject(backBufferHDC, backBufferHBitmap);
-
-        //init graphics
-        backBufferGraphics = new Graphics(backBufferHDC);
-        backBufferGraphics->SetSmoothingMode(SmoothingMode::SmoothingModeAntiAlias);
-
-    }
-
-    void render(HDC hdc, int x, int y) {
-        backBufferGraphics->Clear(Color(int(0.0f), int(255 * 0.125f), int(255 * 0.3f)));
-
-        paint(*backBufferGraphics, PointF(bufferSize.Width/2, bufferSize.Height/2));
-
-        BitBlt(hdc, x, y, bufferSize.Width, bufferSize.Height, backBufferHDC, 0, 0, SRCCOPY);
-    }
-
-    Size getSize() {
-        return bufferSize;
-    }
-private:    
-    Size bufferSize;
-
-    byte *backBuffer; //backBuffer bits
-    HBITMAP backBufferHBitmap;//backBuffer handle
-    HDC backBufferHDC;//backBuffer hdc
-    Graphics *backBufferGraphics;//graphics
-
-    function<void(Graphics&, PointF)> paint;
-
-public:
-    ~WindowPlate() {
-        //delete backBuffer
-        delete[] backBuffer;
-        DeleteObject(backBufferHBitmap);
-
-        //delete HDC and graphics
-        DeleteDC(backBufferHDC);
-        delete backBufferGraphics;
-    }
-};
-
-void paintFirstPlate(Graphics &graphics, PointF center);
-void paintSecondPlate(Graphics &graphics, PointF center);
 
 //--------------------------------------------------------------------------------------
 // Common elements
 //--------------------------------------------------------------------------------------
 
-GraphTargetPoint *targetPoint;
+GraphPoint *targetPoint;
 
 vector<GraphElement*> g_world;
 
-vector<GraphElement*> g_worldFirst;
-
 void initCommonElements() {
 
-    Color xyzColor(140, 140, 140);
-    int xyzHeight = 130;
-
-    Color pointsColor(255, 255, 255);
-    Color linesColor(120, 0, 255 / 4 * 3, 255);
-
-    //xyz
-    g_worldFirst.push_back(new GraphLine(GraphTargetPoint(xyzHeight, 0, 0), GraphTargetPoint(-xyzHeight, 0, 0), xyzColor));
-    g_worldFirst.push_back(new GraphLine(GraphTargetPoint(0, xyzHeight, 0), GraphTargetPoint(0, -xyzHeight, 0), xyzColor));
-    g_worldFirst.push_back(new GraphLine(GraphTargetPoint(0, 0, xyzHeight), GraphTargetPoint(0, 0, -xyzHeight), xyzColor));
-
-    //xyz arrows
-    g_worldFirst.push_back(new GraphLine(GraphTargetPoint(xyzHeight, 0, 0), GraphTargetPoint(xyzHeight - 20, 0, 10), xyzColor));
-    g_worldFirst.push_back(new GraphLine(GraphTargetPoint(xyzHeight, 0, 0), GraphTargetPoint(xyzHeight - 20, 0, -10), xyzColor));
-
-    g_worldFirst.push_back(new GraphLine(GraphTargetPoint(0, xyzHeight, 0), GraphTargetPoint(0, xyzHeight - 20, 10), xyzColor));
-    g_worldFirst.push_back(new GraphLine(GraphTargetPoint(0, xyzHeight, 0), GraphTargetPoint(0, xyzHeight - 20, -10), xyzColor));
-
-    g_worldFirst.push_back(new GraphLine(GraphTargetPoint(0, 0, xyzHeight), GraphTargetPoint(10, 0, xyzHeight - 20), xyzColor));
-    g_worldFirst.push_back(new GraphLine(GraphTargetPoint(0, 0, xyzHeight), GraphTargetPoint(-10, 0, xyzHeight - 20), xyzColor));
-
-    //point
-    g_world.push_back(targetPoint = new GraphTargetPoint(0, 0, 0, Color(255, 255, 255)));
-    g_world.push_back(new GraphWrapCube(*targetPoint, linesColor));
+	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(255, 255, 255)));
+    
+    g_world.push_back(targetPoint = new GraphPoint(0, 0, 0, Color(255, 255, 255)));
+    g_world.push_back(new GraphWrapCube(*targetPoint, Color(120, 0, 255 / 4 * 3, 255)));
 
 }
 
@@ -129,6 +55,9 @@ void initCommonElements() {
 int sliderDx;
 int sliderDy;
 int sliderDz;
+
+void paintFirstPlate(Graphics &graphics, PointF center);
+void paintSecondPlate(Graphics &graphics, PointF center);
 
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
@@ -140,6 +69,15 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
     static WindowPlate *secondPlate;
 
     switch (message) {
+		case WM_DESTROY: {
+			for (auto &ob : g_world) {
+				delete ob;
+			}
+			g_world.clear();
+			delete firstPlate;
+			delete secondPlate;
+			break;
+		}
         case WM_INITDIALOG:
         {
             initCommonElements();
@@ -204,8 +142,6 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
         {
             if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) {
                 EndDialog(hDlg, LOWORD(wParam));
-                delete firstPlate;
-                delete secondPlate;
                 return (INT_PTR)TRUE;
             }
 
@@ -237,50 +173,13 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 //--------------------------------------------------------------------------------------
 
 void paintFirstPlate(Graphics &graphics, PointF center_p) {
-
-    int center = center_p.X;
-    Font font(L"Arial", 12, FontStyleBold);
-    SolidBrush textBrush(Color(255, 255, 255));
-
-    // painting labels
-    graphics.DrawString(L"Z", -1, &font, PointF(center + 10, center / 4), &textBrush);
-    graphics.DrawString(L"X", -1, &font, PointF(center / 4, center + 9), &textBrush);
-    graphics.DrawString(L"Y", -1, &font, PointF(center*2 - center / 2 + 9, center*2 - center / 2 + 9), &textBrush);
-
-    
-    for (auto ob : g_worldFirst) {
-        ob->paint(graphics, center_p);
-    }
     for (auto ob : g_world) {
         ob->paint(graphics, center_p);
     }
 };
 
 
-void paintSecondPlate(Graphics &graphics, PointF center_p) {
-
-    int center = center_p.X;
-    Font font(L"Arial", 12, FontStyleBold);
-    SolidBrush textBrush(Color(255, 255, 255));
-    // painting labels
-    graphics.DrawString(L"-Y", -1, &font, PointF(0, center + 3), &textBrush);
-    graphics.DrawString(L"Y", -1, &font, PointF(center*2 - 18, center + 3), &textBrush);
-
-    graphics.DrawString(L"X", -1, &font, PointF(3, center - 23), &textBrush);
-    graphics.DrawString(L"-X", -1, &font, PointF(center * 2 - 23, center - 23), &textBrush);
-
-
-    graphics.DrawString(L"-Y", -1, &font, PointF(center - 23, 5), &textBrush);
-    graphics.DrawString(L"Z", -1, &font, PointF(center + 5, 5), &textBrush);
-
-    graphics.DrawString(L"-Z", -1, &font, PointF(center - 23, center*2 - 23), &textBrush);
-    graphics.DrawString(L"Y", -1, &font, PointF(center + 5,   center*2 - 23), &textBrush);
-
-    Color xyzColor(140, 140, 140);
-    // vert. and hor. lines
-    graphics.DrawLine(&Pen(xyzColor, 2), Point(0, center), Point(center*2, center));
-    graphics.DrawLine(&Pen(xyzColor, 2), Point(center, 0), Point(center, center*2));
-    
+void paintSecondPlate(Graphics &graphics, PointF center_p) {    
     for (auto ob : g_world) {
         ob->paintComplex(graphics, center_p);
     }

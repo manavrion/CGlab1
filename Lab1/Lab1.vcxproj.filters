@@ -13,9 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <Filter Include="GraphElements">
+      <UniqueIdentifier>{dd3d4141-6c57-4f46-89d3-3df620be665e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -30,7 +30,18 @@
     <ClInclude Include="Lab1.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="GraphElements.h" />
+    <ClInclude Include="WindowPlate.h" />
+    <ClInclude Include="GraphLine.h" />
+    <ClInclude Include="GraphWrapPoint.h" />
+    <ClInclude Include="GraphXYZ.h">
+      <Filter>GraphElements</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphElement.h">
+      <Filter>GraphElements</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphPoint.h">
+      <Filter>GraphElements</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -52,6 +63,13 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="Lab1.exe.manifest" />
+    <Text Include="ReadMe.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Manifest Include="Lab1.exe.manifest">
+      <Filter>Файлы ресурсов</Filter>
+    </Manifest>
   </ItemGroup>
 </Project>
