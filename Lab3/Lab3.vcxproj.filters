@@ -68,11 +68,6 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-  </ItemGroup>
-  <ItemGroup>
     <Manifest Include="Lab3.exe.manifest">
       <Filter>Файлы ресурсов</Filter>
     </Manifest>
