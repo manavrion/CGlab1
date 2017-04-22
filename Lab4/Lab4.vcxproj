@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{3B3140EB-4329-40F9-89C0-C8A40B22EF16}</ProjectGuid>
+    <ProjectGuid>{182BE8D0-B75E-4683-925D-0E99E3324EB5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Lab3</RootNamespace>
+    <RootNamespace>Lab4</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -135,15 +135,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GraphSpecialLine.h" />
-    <ClInclude Include="GraphTriangle.h" />
-    <ClInclude Include="Lab3.h" />
+    <ClInclude Include="Lab4.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Lab3.cpp" />
+    <ClCompile Include="Lab4.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -152,14 +150,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Lab3.rc" />
+    <ResourceCompile Include="Lab4.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Lab3.ico" />
+    <Image Include="Lab4.ico" />
     <Image Include="small.ico" />
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="Lab3.exe.manifest" />
+    <Manifest Include="Lab4.exe.manifest" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -24,19 +24,18 @@
     <ClInclude Include="Resource.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="Lab2.h">
+    <ClInclude Include="Lab4.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="GraphWrapLine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
-    <ClCompile Include="Lab2.cpp" />
+    <ClCompile Include="Lab4.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Lab2.rc">
+    <ResourceCompile Include="Lab4.rc">
       <Filter>Файлы ресурсов</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -44,12 +43,12 @@
     <Image Include="small.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
-    <Image Include="Lab2.ico">
+    <Image Include="Lab4.ico">
       <Filter>Файлы ресурсов</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Manifest Include="Lab2.exe.manifest">
+    <Manifest Include="Lab4.exe.manifest">
       <Filter>Файлы ресурсов</Filter>
     </Manifest>
   </ItemGroup>

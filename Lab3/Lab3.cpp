@@ -4,14 +4,8 @@
 #include "stdafx.h"
 #include "Lab3.h"
 
-#include "WindowPlate.h"
-#include "GraphElement.h"
-#include "GraphLine.h"
-#include "GraphPoint.h"
-#include "GraphWrapCube.h"
-#include "GraphXYZ.h"
+#include "../CommonFiles/CGCommon.h"
 #include "GraphTriangle.h"
-#include "GraphLabel.h"
 #include "GraphSpecialLine.h"
 
 #include <map>
@@ -96,8 +90,8 @@ void intersectLineWithTriangle() {
 		GraphWrapCube *cube = new GraphWrapCube(*intersectPoint, Color(160, 160, 255), 1);
 		GraphLabel *label = new GraphLabel(*intersectPoint, Color::Yellow);
 
-		cube->visible = SendMessage(GetDlgItem(g_hDlg, IDC_CHECKBOX_WRAPPERS), BM_GETCHECK, 0, 0);
-		label->visible = SendMessage(GetDlgItem(g_hDlg, IDC_CHECKBOX_LABELS), BM_GETCHECK, 0, 0);
+		cube->setVisible(SendMessage(GetDlgItem(g_hDlg, IDC_CHECKBOX_WRAPPERS), BM_GETCHECK, 0, 0));
+		label->setVisible(SendMessage(GetDlgItem(g_hDlg, IDC_CHECKBOX_LABELS), BM_GETCHECK, 0, 0));
 
 		wrapCubes.insert(cube);
 		wrapLabels.insert(label);
@@ -125,7 +119,7 @@ void initCommonElements() {
 	
 	for (auto &ob : targetPoints) {
 		GraphWrapCube *wrapCube = new GraphWrapCube(*ob.second, Color(160, 160, 255), 1);
-		wrapCube->visible = false;
+		wrapCube->setVisible(false);
 		wrapCubes.insert(wrapCube);
 		g_world.push_back(wrapCube);
 	}
@@ -137,7 +131,7 @@ void initCommonElements() {
 
 	for (auto &ob : targetPoints) {
 		GraphLabel *wrapLabel = new GraphLabel(*ob.second, Color::Yellow);
-		wrapLabel->visible = false;
+		wrapLabel->setVisible(false);
 		wrapLabels.insert(wrapLabel);
 		g_world.push_back(wrapLabel);
 	}
@@ -237,9 +231,7 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				s += to_wstring((int)targetPoints[buf[0]]->z);
 				s += L")";
 				SendMessage(GetDlgItem(hDlg, IDC_STATIC_POSITION1), WM_SETTEXT, 0, (LPARAM)(s.c_str()));
-			}
-
-			
+			}		
 			
 
 			EndPaint(hDlg, &ps);
@@ -338,21 +330,17 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			if (LOWORD(wParam) == IDC_CHECKBOX_LABELS) {
 				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_LABELS), BM_GETCHECK, 0, 0);
-
 				for (auto &ob : wrapLabels) {
-					ob->visible = flag;
+					ob->setVisible(flag);
 				}
-
 				InvalidateRect(hDlg, NULL, false);
 			}
 
 			if (LOWORD(wParam) == IDC_CHECKBOX_WRAPPERS) {
 				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_WRAPPERS), BM_GETCHECK, 0, 0);
-
 				for (auto &ob : wrapCubes) {
-					ob->visible = flag;
+					ob->setVisible(flag);
 				}
-
 				InvalidateRect(hDlg, NULL, false);
 			}
 

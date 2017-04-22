@@ -1,7 +1,7 @@
 #pragma once
 
-#include "GraphElement.h"
-#include "GraphPoint.h"
+#include "../CommonFiles/GraphElement.h"
+#include "../CommonFiles/GraphPoint.h"
 #include "GraphTriangle.h"
 
 struct GraphSpecialLine : public GraphElement {
@@ -92,4 +92,6 @@ struct GraphSpecialLine : public GraphElement {
 		}
 
 	}
+
+	void paintPerspective(Graphics &graphics, PointF center) {};
 };

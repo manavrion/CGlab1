@@ -1,5 +1,5 @@
 #pragma once
-#include "GraphPoint.h"
+#include "../CommonFiles/GraphPoint.h"
 #include <vector>
 
 
@@ -29,6 +29,8 @@ struct GraphTriangle : public GraphElement {
 		drawTriangle(graphics, a.getComplexProjection2(center), b.getComplexProjection2(center), c.getComplexProjection2(center));
 		drawTriangle(graphics, a.getComplexProjection3(center), b.getComplexProjection3(center), c.getComplexProjection3(center));		
 	}
+
+	void paintPerspective(Graphics &graphics, PointF center) {};
 
 protected:
 	void drawTriangle(Graphics &graphics, PointF posA, PointF posB, PointF posC) {

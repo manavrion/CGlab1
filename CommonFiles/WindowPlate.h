@@ -1,6 +1,5 @@
 #pragma once
-#include "stdafx.h" 
-
+#include "afx.h"
 //--------------------------------------------------------------------------------------
 // GDI+ plate
 //--------------------------------------------------------------------------------------
@@ -8,7 +7,7 @@
 
 class WindowPlate {
 public:
-	WindowPlate(function<void(Graphics&, PointF)> paint, Size bufferSize = Size(350, 350)) : paint(paint), bufferSize(bufferSize) {
+	WindowPlate(std::function<void(Graphics&, PointF)> paint, Size bufferSize = Size(350, 350)) : paint(paint), bufferSize(bufferSize) {
 
 		//init backBuffer
 		backBuffer = new byte[bufferSize.Width * bufferSize.Height * 4];
@@ -43,7 +42,7 @@ private:
 	HDC backBufferHDC;//backBuffer hdc
 	Graphics *backBufferGraphics;//graphics
 
-	function<void(Graphics&, PointF)> paint;
+	std::function<void(Graphics&, PointF)> paint;
 
 public:
 	~WindowPlate() {

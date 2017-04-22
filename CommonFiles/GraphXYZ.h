@@ -1,6 +1,6 @@
 #pragma once
+#include "afx.h"
 #include "GraphLine.h"
-#include <vector>
 
 struct GraphXYZ : public GraphElement {
 
@@ -83,6 +83,8 @@ struct GraphXYZ : public GraphElement {
 			delete ob;
 		}
 	}
+
+	void paintPerspective(Graphics &graphics, PointF center) {};
 
 };
 

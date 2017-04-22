@@ -4,12 +4,7 @@
 #include "stdafx.h"
 #include "Lab1.h"
 
-#include "WindowPlate.h"
-#include "GraphElement.h"
-#include "GraphLine.h"
-#include "GraphPoint.h"
-#include "GraphWrapPoint.h"
-#include "GraphXYZ.h"
+#include "../CommonFiles/CGCommon.h"
 
 INT_PTR CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -46,7 +41,9 @@ void initCommonElements() {
 	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(255, 255, 255)));
     
     g_world.push_back(targetPoint = new GraphPoint(0, 0, 0, Color(255, 255, 255)));
+	targetPoint->name = L"P";
     g_world.push_back(new GraphWrapCube(*targetPoint, Color(120, 0, 255 / 4 * 3, 255)));
+	g_world.push_back(new GraphLabel(*targetPoint, Color(120, 0, 255 / 4 * 3, 255)));
 
 }
 

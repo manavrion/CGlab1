@@ -1,19 +1,22 @@
 #pragma once
+#include "afx.h"
 #include "GraphElement.h"
 #include "GraphPoint.h"
 
-struct GraphLabel: public GraphElement {
+struct GraphLabel : public GraphElement {
 
 	GraphLabel(GraphPoint &target, Color color) :
-		target(target), GraphElement(color),
-		font(L"Arial", 10, FontStyleBold), textBrush(Color::Yellow) {};
+		target(target),
+		font(L"Arial", 10, FontStyleBold), 
+		textBrush(Color::Yellow),
+		border(5)
+	{ }
 
 	GraphPoint &target;
 
 	Font font;
 	SolidBrush textBrush;
-	int border = 5;
-
+	int border;
 
 	void paint(Graphics &graphics, PointF center) {
 		if (!visible) return;
@@ -73,4 +76,6 @@ struct GraphLabel: public GraphElement {
 			graphics.DrawString((target.name + L"3").c_str(), -1, &font, PointF(pnt3.X, pnt3.Y), &textBrush);
 		}
 	}
+
+	void paintPerspective(Graphics &graphics, PointF center) {};
 };

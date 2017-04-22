@@ -135,16 +135,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="GraphElement.h" />
-    <ClInclude Include="GraphLine.h" />
-    <ClInclude Include="GraphPoint.h" />
-    <ClInclude Include="GraphWrapPoint.h" />
-    <ClInclude Include="GraphXYZ.h" />
     <ClInclude Include="Lab1.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="WindowPlate.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Lab1.cpp" />
