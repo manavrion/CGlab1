@@ -2,7 +2,7 @@
 #include "afx.h"
 #include "GraphElement.h"
 
-class GraphPoint : public GraphElement {
+class GraphPoint : virtual public GraphElement {
 public:
 	GraphPoint(float x, float y, float z, std::wstring name = L"") : x(x), y(y), z(z), name(name) {};
 
@@ -76,8 +76,4 @@ public:
 		graphics.FillEllipse(&brush, RectF(getComplexProjection3(center), SizeF(6, 6)));
 	};
 
-	void paintPerspective(Graphics &graphics, PointF center) {
-
-	}
-	
 };

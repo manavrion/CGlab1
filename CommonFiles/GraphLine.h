@@ -1,9 +1,8 @@
 #pragma once
 #include "afx.h"
-#include "GraphElement.h"
 #include "GraphPoint.h"
 
-struct GraphLine : public GraphElement {
+struct GraphLine : virtual public GraphElement {
 
 	GraphLine(GraphPoint &a, GraphPoint &b, Color color, int width = 2) 
 		: a(a), b(b), 
@@ -27,6 +26,4 @@ struct GraphLine : public GraphElement {
 		graphics.DrawLine(&Pen(color, width), a.getComplexProjection2(center), b.getComplexProjection2(center));
 		graphics.DrawLine(&Pen(color, width), a.getComplexProjection3(center), b.getComplexProjection3(center));		
 	};
-
-	void paintPerspective(Graphics &graphics, PointF center) {};
 };

@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="SimpleObjects">
+      <UniqueIdentifier>{0f329845-4650-41df-b84b-7b92aeede025}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -27,12 +30,46 @@
     <ClInclude Include="Lab4.h">
       <Filter>Заголовочные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="GraphCube.h" />
+    <ClInclude Include="Matrix.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="afx.h">
+      <Filter>SimpleObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphElement.h">
+      <Filter>SimpleObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphLabel.h">
+      <Filter>SimpleObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphLine.h">
+      <Filter>SimpleObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphPoint.h">
+      <Filter>SimpleObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphWrapCube.h">
+      <Filter>SimpleObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphXYZ.h">
+      <Filter>SimpleObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="GPointF.h">
+      <Filter>SimpleObjects</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Lab4.cpp" />
+    <ClCompile Include="GraphPoint.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Lab4.rc">

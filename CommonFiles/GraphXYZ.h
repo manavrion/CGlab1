@@ -2,7 +2,7 @@
 #include "afx.h"
 #include "GraphLine.h"
 
-struct GraphXYZ : public GraphElement {
+struct GraphXYZ : virtual public GraphElement {
 
 	GraphXYZ(Color xyzColor, Color textColor) : 
 		GraphElement(xyzColor),
@@ -76,15 +76,13 @@ struct GraphXYZ : public GraphElement {
 		
 	};
 
-	~GraphXYZ() {
+	virtual ~GraphXYZ() {
 		for (auto &ob : toPaintElements) {
 			delete &(ob->a);
 			delete &(ob->b);
 			delete ob;
 		}
 	}
-
-	void paintPerspective(Graphics &graphics, PointF center) {};
 
 };
 

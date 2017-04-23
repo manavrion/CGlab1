@@ -31,6 +31,7 @@ public:
 
     virtual void paintComplex(Graphics &graphics, PointF center) = 0;
 
-	virtual void paintPerspective(Graphics &graphics, PointF center) = 0;
+	virtual ~GraphElement() {
 
+	}
 };

@@ -135,13 +135,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="afx.h" />
+    <ClInclude Include="GPointF.h" />
+    <ClInclude Include="GraphCube.h" />
+    <ClInclude Include="GraphElement.h" />
+    <ClInclude Include="GraphLabel.h" />
+    <ClInclude Include="GraphLine.h" />
+    <ClInclude Include="GraphPoint.h" />
+    <ClInclude Include="GraphWrapCube.h" />
+    <ClInclude Include="GraphXYZ.h" />
+    <ClInclude Include="Matrix.h" />
     <ClInclude Include="Lab4.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GraphPoint.cpp" />
     <ClCompile Include="Lab4.cpp" />
+    <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

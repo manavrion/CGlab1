@@ -41,8 +41,8 @@ vector<GraphElement*> g_world;
 
 map<wchar_t, GraphPoint*> targetPoints;
 
-set<GraphWrapCube*> wrapCubes;
-set<GraphLabel*> wrapLabels;
+set<GraphElement*> wrapCubes;
+set<GraphElement*> wrapLabels;
 
 
 vector<GraphElement*> intersectItems;
@@ -54,8 +54,8 @@ HWND g_hDlg;
 void intersectLineWithTriangle() {
 
 	for (auto ob : intersectItems) {
-		wrapCubes.erase((GraphWrapCube*)ob);
-		wrapLabels.erase((GraphLabel*)ob);
+		wrapCubes.erase(ob);
+		wrapLabels.erase(ob);
 		delete ob;
 	}
 	intersectItems.clear();

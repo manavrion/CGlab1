@@ -4,8 +4,16 @@
 #include "stdafx.h"
 #include "Lab4.h"
 
-#include "../CommonFiles/CGCommon.h"
+#include "GraphElement.h"
+#include "GraphPoint.h"
+#include "GraphLine.h"
+#include "GraphWrapCube.h"
+#include "GraphXYZ.h"
+#include "GraphLabel.h"
 
+#include "GraphCube.h"
+
+#include "../CommonFiles/WindowPlate.h"
 #include <map>
 #include <set>
 
@@ -45,15 +53,16 @@ set<GraphLabel*> wrapLabels;
 
 GraphLine *graphLine;
 
-
-
+GraphCube *graphCube;
 
 void initCommonElements() {
 
 	targetPoints[L'M'] = new GraphPoint(0, 0, 0, L"M");
 	targetPoints[L'N'] = new GraphPoint(0, 0, 0, L"N");
 
-	targetPoints[L'C'] = new GraphPoint(0, 0, 0, L"C");
+	targetPoints[L'C'] = new GraphPoint(0, 0, 50, L"C");
+
+	targetPoints[L'T'] = new GraphPoint(0, 0, 0, L"C");
 
 	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(255, 255, 255)));
 	
@@ -63,11 +72,12 @@ void initCommonElements() {
 		wrapCubes.insert(wrapCube);
 		g_world.push_back(wrapCube);
 	}
-
-	//g_world.push_back(graphTriangle = new GraphTriangle(*targetPoints[L'A'], *targetPoints[L'B'], *targetPoints[L'C'], Color(255, 170, 170)));
+	
+	g_world.push_back(graphCube = new GraphCube(0, 25));
 
 	g_world.push_back(graphLine = new GraphLine(*targetPoints[L'M'], *targetPoints[L'N'], Color(170, 255, 170)));
-
+	g_world.push_back(targetPoints[L'C']);
+	g_world.push_back(targetPoints[L'T']);
 
 	for (auto &ob : targetPoints) {
 		GraphLabel *wrapLabel = new GraphLabel(*ob.second, Color::Yellow);
@@ -75,7 +85,6 @@ void initCommonElements() {
 		wrapLabels.insert(wrapLabel);
 		g_world.push_back(wrapLabel);
 	}
-
 }
 
 
@@ -133,6 +142,7 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_ADDSTRING, 0, (LPARAM)L"C (view point)");
 			SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_ADDSTRING, 0, (LPARAM)L"M (line)");
 			SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_ADDSTRING, 0, (LPARAM)L"N (line)");
+			SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_ADDSTRING, 0, (LPARAM)L"T (test)");
 
 			SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_SETCURSEL, 0, 0);
 
@@ -257,11 +267,24 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 					ob.second->z = 0;
 				}
 
+				graphCube->resetCube();
+
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_X1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(targetPoints[buf[0]]->x)*sliderDx);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Y1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(targetPoints[buf[0]]->y)*sliderDx);
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Z1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(targetPoints[buf[0]]->z)*sliderDx);
 				InvalidateRect(hDlg, NULL, false);
 			}
+
+			if (LOWORD(wParam) == IDC_BUTTONSHIFT) {
+				graphCube->shiftTo(*targetPoints[L'M'], *targetPoints[L'N']);
+				InvalidateRect(hDlg, NULL, false);
+			}
+
+			if (LOWORD(wParam) == IDC_BUTTONROTATE) {
+				graphCube->rotateTo(*targetPoints[L'M'], *targetPoints[L'N']);
+				InvalidateRect(hDlg, NULL, false);
+			}
+
 
 			if (LOWORD(wParam) == IDC_CHECKBOX_LABELS) {
 				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_LABELS), BM_GETCHECK, 0, 0);
@@ -304,6 +327,6 @@ void paintFirstPlate(Graphics &graphics, PointF center) {
 
 void paintSecondPlate(Graphics &graphics, PointF center) {
 	for (auto ob : g_world) {
-		ob->paintPerspective(graphics, center);
+		ob->paintPerspective(graphics, center, targetPoints[L'C']->getGPointF());
 	}
 };

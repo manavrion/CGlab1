@@ -2,7 +2,7 @@
 #include "afx.h"
 #include "GraphPoint.h"
 
-struct GraphWrapCube : public GraphElement {
+struct GraphWrapCube : virtual public GraphElement {
 
 	GraphWrapCube(GraphPoint &target, Color color, int width = 2) :
 		target(target), width(width), GraphElement(color) {};
@@ -63,6 +63,4 @@ struct GraphWrapCube : public GraphElement {
 		graphics.DrawBezier(&pen, PointF(center.X, pnt1.Y), PointF(pnt3.X, pnt1.Y), PointF(pnt3.X, center.Y), PointF(pnt3.X, center.Y));
 		
 	};
-
-	void paintPerspective(Graphics &graphics, PointF center) {};
 };
