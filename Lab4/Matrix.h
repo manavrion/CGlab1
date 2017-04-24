@@ -32,6 +32,9 @@ public:
 		return ret;
 	}
 
+	float getDet() {
+
+	}
 
 	static GPointF applyMatrixTo(GPointF point, const GMatrix &m);
 

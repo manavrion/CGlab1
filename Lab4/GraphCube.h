@@ -36,14 +36,25 @@ struct GraphCube : public GraphElement {
 		}
 		lines.clear();
 		plates.clear();
+		triangles.clear();
+		pts.clear();
+
+
+		for (auto &ob : points) {
+			pts.push_back(ob);
+		}
+
 		int width = 1;
 
 		lines.push_back(new GraphLine(points[0], points[1], color, width));
-		lines.push_back(new GraphLine(points[7], points[1], color, width));
+		lines.push_back(new GraphLine(points[1], points[7], color, width));
 		lines.push_back(new GraphLine(points[7], points[2], color, width));
 		lines.push_back(new GraphLine(points[2], points[0], color, width));
 
 		plates.push_back(vector<GraphLine*>(lines.begin(), lines.begin() + 4));
+		
+		triangles.push_back(vector<GPointF>({ GPointF(points[0]), GPointF(points[1]), GPointF(points[7]) }));
+		triangles.push_back(vector<GPointF>({ GPointF(points[7]), GPointF(points[2]), GPointF(points[0]) }));
 
 
 
@@ -54,6 +65,10 @@ struct GraphCube : public GraphElement {
 
 		plates.push_back(vector<GraphLine*>(lines.begin() + 4, lines.begin() + 4 + 3));
 		plates[1].push_back(lines[0]);
+
+		triangles.push_back(vector<GPointF>({ GPointF(points[0]), GPointF(points[3]), GPointF(points[6]) }));
+		triangles.push_back(vector<GPointF>({ GPointF(points[6]), GPointF(points[1]), GPointF(points[0]) }));
+
 
 
 
@@ -66,6 +81,9 @@ struct GraphCube : public GraphElement {
 		plates[2].push_back(lines[3]);
 		plates[2].push_back(lines[4]);
 
+		triangles.push_back(vector<GPointF>({ GPointF(points[0]), GPointF(points[2]), GPointF(points[5]) }));
+		triangles.push_back(vector<GPointF>({ GPointF(points[5]), GPointF(points[3]), GPointF(points[0]) }));
+
 
 
 		lines.push_back(new GraphLine(points[4], points[5], color, width));
@@ -77,6 +95,11 @@ struct GraphCube : public GraphElement {
 		plates[3].push_back(lines[7]);
 		plates[3].push_back(lines[2]);
 
+		triangles.push_back(vector<GPointF>({ GPointF(points[4]), GPointF(points[5]), GPointF(points[2]) }));
+		triangles.push_back(vector<GPointF>({ GPointF(points[2]), GPointF(points[7]), GPointF(points[4]) }));
+
+
+
 
 		//lines.push_back(new GraphLine(points[4], points[7], color, width));
 		lines.push_back(new GraphLine(points[4], points[6], color, width));
@@ -86,6 +109,12 @@ struct GraphCube : public GraphElement {
 		plates.push_back(vector<GraphLine*>(lines.begin() + 4 + 3 + 2 + 2, lines.begin() + 4 + 3 + 2 + 2 + 3));
 		plates[4].push_back(lines[10]);
 		
+
+		triangles.push_back(vector<GPointF>({ GPointF(points[7]), GPointF(points[4]), GPointF(points[6]) }));
+		triangles.push_back(vector<GPointF>({ GPointF(points[6]), GPointF(points[1]), GPointF(points[7]) }));
+
+
+
 		//lines.push_back(new GraphLine(points[4], points[6], color, width));
 		//lines.push_back(new GraphLine(points[3], points[6], color, width));
 		//lines.push_back(new GraphLine(points[5], points[3], color, width));
@@ -96,6 +125,12 @@ struct GraphCube : public GraphElement {
 		plates[5].push_back(lines[5]);
 		plates[5].push_back(lines[8]);
 		plates[5].push_back(lines[9]);
+
+
+		triangles.push_back(vector<GPointF>({ GPointF(points[4]), GPointF(points[6]), GPointF(points[3]) }));
+		triangles.push_back(vector<GPointF>({ GPointF(points[3]), GPointF(points[5]), GPointF(points[4]) }));
+
+
 
 		/*lines.push_back(new GraphLine(points[0], points[1], color, width));
 		lines.push_back(new GraphLine(points[0], points[2], color, width));
@@ -114,6 +149,12 @@ struct GraphCube : public GraphElement {
 	}
 
 	vector<vector<GraphLine*>> plates;
+
+
+
+	vector<vector<GPointF>> triangles;
+	vector<GPointF> pts;
+
 
 	
 	vector<GraphPoint> originalPoints;
@@ -139,7 +180,7 @@ struct GraphCube : public GraphElement {
 	};
 
 
-	map<GraphLine*, bool> isvis;
+	map<GPointF, bool> isvis;
 	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
 
 		if (!visible) return;		
@@ -147,7 +188,7 @@ struct GraphCube : public GraphElement {
 		updateVisInfo(viewPoint);
 
 		for (auto &ob : lines) {
-			if (isvis[ob]) {
+			if (isvis[ob->a] || isvis[ob->b]) {
 				ob->setColor(color);
 			} else {
 				ob->setColor(Gdiplus::Color(100, color.GetR(), color.GetG(), color.GetB()));
@@ -166,9 +207,41 @@ struct GraphCube : public GraphElement {
 
 	void updateVisInfo(GPointF viewPoint) {
 
-		
+		//vector<vector<GPointF>> triangles;
+		//vector<GPointF> pts;
+
+		sort(pts.begin(), pts.end(), [&](GPointF a, GPointF b) {
+			return a.getGistanceTo(viewPoint) < b.getGistanceTo(viewPoint);
+		});
+
+
+		GPointF nearest = *pts.begin();
+
+
+
+
+
+
+
+
+
 
 	}
+
+
+	int getValue(GPointF p, vector<GPointF> a) {
+
+		float m[4][4] = { { a[1].x - a[0].x, a[1].y - a[0].y, a[1].z - a[0].z },
+						  { a[2].x - a[0].x, a[2].y - a[0].y, a[2].z - a[0].z },
+						  {    p.x - a[0].x,    p.y - a[0].y,    p.z - a[0].z } };
+
+		GMatrix matrix(m);
+
+		float val = matrix.getDet();
+
+
+	}
+
 
 
 

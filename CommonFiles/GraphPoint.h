@@ -1,6 +1,16 @@
 #pragma once
 #include "afx.h"
 #include "GraphElement.h"
+#include <functional>
+
+static function<PointF(float, float, float, PointF)> getProjectionFunc = [](float x, float y, float z, PointF center)->PointF {
+	center.X += -x;
+	center.Y += -z;
+
+	center.X += y*0.75;
+	center.Y += y*0.75;
+	return center;
+};
 
 class GraphPoint : virtual public GraphElement {
 public:
@@ -11,13 +21,21 @@ public:
 	float x, y, z;
 	std::wstring name;
 
-	PointF getProjection(PointF center) {
-		center.X += -x;
-		center.Y += -z;
 
-		center.X += y*0.75;
-		center.Y += y*0.75;
-		return center;
+	static void setNewProjFunc(function<PointF(float, float, float, PointF)> f) {
+		getProjectionFunc = f;
+	}
+
+	PointF getProjection(PointF center) {
+
+		return getProjectionFunc(x, y, z, center);
+
+		//center.X += -x;
+		//center.Y += -z;
+		//
+		//center.X += y*0.75;
+		//center.Y += y*0.75;
+		//return center;
 	}
 
 	PointF getProjectionPointXY(PointF center) {

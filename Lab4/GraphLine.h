@@ -8,7 +8,9 @@ struct GraphLine : public GraphElement, public Old2DEdition::GraphLine {
 
 	GraphLine(GraphPoint &a, GraphPoint &b, Color color, int width = 2) 
 		: Old2DEdition::GraphLine(a, b, color, width)
-	{ }
+	{
+		this->color = color;
+	}
 
 	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
 

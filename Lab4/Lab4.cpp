@@ -64,7 +64,7 @@ void initCommonElements() {
 
 	targetPoints[L'T'] = new GraphPoint(0, 0, 0, L"C");
 
-	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(255, 255, 255)));
+	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(140, 255, 255, 255)));
 	
 	for (auto &ob : targetPoints) {
 		GraphWrapCube *wrapCube = new GraphWrapCube(*ob.second, Color(160, 160, 255), 1);

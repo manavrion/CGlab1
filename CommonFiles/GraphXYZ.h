@@ -5,29 +5,28 @@
 struct GraphXYZ : virtual public GraphElement {
 
 	GraphXYZ(Color xyzColor, Color textColor) : 
-		GraphElement(xyzColor),
+		GraphElement(color),
 		textBrush(textColor),
 		font(L"Arial", 12, FontStyleBold) 
-	{
-		
+	{ }
+
+	virtual void init() {
 		int xyzHeight = 130;
 
 		//xyz
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(-xyzHeight, 0, 0), xyzColor));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, -xyzHeight, 0), xyzColor));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(0, 0, -xyzHeight), xyzColor));
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(-xyzHeight, 0, 0), color));
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, -xyzHeight, 0), color));
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(0, 0, -xyzHeight), color));
 
 		//xyz arrows
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(xyzHeight - 20, 0, 10), xyzColor));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(xyzHeight - 20, 0, -10), xyzColor));
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(xyzHeight - 20, 0, 10), color));
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(xyzHeight - 20, 0, -10), color));
 
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, xyzHeight - 20, 10), xyzColor));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, xyzHeight - 20, -10), xyzColor));
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, xyzHeight - 20, 10), color));
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, xyzHeight - 20, -10), color));
 
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(10, 0, xyzHeight - 20), xyzColor));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(-10, 0, xyzHeight - 20), xyzColor));
-
-
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(10, 0, xyzHeight - 20), color));
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(-10, 0, xyzHeight - 20), color));
 	}
 
 	vector<GraphLine*> toPaintElements;
@@ -35,8 +34,12 @@ struct GraphXYZ : virtual public GraphElement {
 	SolidBrush textBrush;
 
 	
-	void paint(Graphics &graphics, PointF center_p) {
+	virtual void paint(Graphics &graphics, PointF center_p) {
 		if (!visible) return;
+
+		if (toPaintElements.empty()) {
+			init();
+		}
 
 		for (auto &ob : toPaintElements) {
 			ob->paint(graphics, center_p);
@@ -53,6 +56,10 @@ struct GraphXYZ : virtual public GraphElement {
 
 	void paintComplex(Graphics &graphics, PointF center_p) {
 		if (!visible) return;
+
+		if (toPaintElements.empty()) {
+			init();
+		}
 
 		int center = center_p.X;		
 		// painting labels
