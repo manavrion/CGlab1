@@ -20,4 +20,8 @@ struct GPointF {
 		y /= d;
 		z /= d;
 	}
+
+	bool operator<(const GPointF &a) const {
+		return std::tie(x, y) < std::tie(a.x, a.y);
+	}
 };
