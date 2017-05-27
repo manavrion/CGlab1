@@ -211,10 +211,11 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hDlg, &ps);
 
-			firstPlate->render(hdc, 10, 10);
-			secondPlate->render(hdc, 10 + firstPlate->getSize().Width + 10, 10);
+			firstPlate->render();
+			secondPlate->render();
 
-
+			firstPlate->blt(hdc, 10, 10);
+			secondPlate->blt(hdc, 10 + firstPlate->getSize().Width + 10, 10);
 
 			wchar_t buf[255];
 			int it = SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_GETCURSEL, 0, 0);
