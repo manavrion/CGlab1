@@ -84,13 +84,9 @@ PointF *GMatrix::getProjection(Geomenty::GPointF point, Geomenty::GPointF viewPo
 
 	Geomenty::GLine main_vector(point, viewPoint);
 
-	Geomenty::GPlate screen(
-		Geomenty::GPointF(10075.0f, 10075.0f, viewPoint.z - focus), 
-		Geomenty::GPointF(10075.0f, -10075.0f, viewPoint.z - focus), 
-		Geomenty::GPointF(-10075.0f, -10075.0f, viewPoint.z - focus),
-		Geomenty::GPointF(-10075.0f, 10075.0f, viewPoint.z - focus));
+	Geomenty::GPlate screen(viewPoint.z - focus);
 
-	Geomenty::GPointF *proj = screen.intersectWithLine(main_vector);
+	Geomenty::GPointF *proj = screen.intersectWithLineUnborder(main_vector);
 
 	if (proj == nullptr) {
 		return nullptr;

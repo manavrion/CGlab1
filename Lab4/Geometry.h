@@ -96,6 +96,7 @@ namespace Geomenty {
 
 	struct GPlate {
 		GPlate(const GPointF &a, const GPointF &b, const GPointF &c, const GPointF &d) : a(a), b(b), c(c), d(d) {}
+		GPlate(float z) : a(100, 100, z), b(-100, 100, z), c(-100, -100, z), d(100, -100, z) {}
 
 		GPointF a;
 		GPointF b;
@@ -104,7 +105,7 @@ namespace Geomenty {
 
 		GPointF *intersectWithLine(const GLine &line) const {
 
-			GPointF *intersect = GPlane(a, b, c).intersectLineWithTriangle(line);
+			GPointF *intersect = intersectWithLineUnborder(line);
 
 			if (intersect == nullptr) {
 				return nullptr;
@@ -127,18 +128,41 @@ namespace Geomenty {
 
 			float pd = a.getDistanceTo(b);
 
-			float td = line.getLength();
-			float t1 = line.p1.getDistanceTo(*intersect);
-			float t2 = line.p2.getDistanceTo(*intersect);
-
 			const float eps = 1e-2;
-			if ((abs(pd - (p1 + p3)) <= eps && abs(pd - (p2 + p4)) <= eps) && abs(td - (t1 + t2)) <= eps) {
+			if (abs(pd - (p1 + p3)) <= eps && abs(pd - (p2 + p4)) <= eps) {
 				return intersect;
 			}
 
 			delete intersect;
 			return nullptr;
 		}
+
+		GPointF *intersectWithLineUnborder(const GLine &line) const {
+
+			GPointF *intersect = GPlane(a, b, c).intersectLineWithTriangle(line);
+
+			if (intersect == nullptr) {
+				return nullptr;
+			}
+
+			GLine l1(a, b);
+			GLine l2(b, c);
+			GLine l3(c, d);
+			GLine l4(d, a);
+
+			float td = line.getLength();
+			float t1 = line.p1.getDistanceTo(*intersect);
+			float t2 = line.p2.getDistanceTo(*intersect);
+
+			const float eps = 1e-2;
+			if (abs(td - (t1 + t2)) <= eps) {
+				return intersect;
+			}
+
+			delete intersect;
+			return nullptr;
+		}
+
 	};
 
 }

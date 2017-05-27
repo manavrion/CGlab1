@@ -22,10 +22,15 @@ struct GraphLine : public OldGraphLine::GraphLine {
 
 		if (pos0 != nullptr && pos2 != nullptr) {
 			drawLine(graphics, pos0, pos2);
-		} else if (pos1 != nullptr /*&& pos0 != nullptr && pos2 != nullptr*/) {
+		} else if (pos1 != nullptr && pos0 != nullptr) {
 			drawLine(graphics, pos0, pos1);
+		} else if (pos1 != nullptr && pos2 != nullptr) {
 			drawLine(graphics, pos1, pos2);
-		}		
+		} else {
+			delete pos0;
+			delete pos1;
+			delete pos2;
+		}
 
 		delete pos0;
 		delete pos1;
