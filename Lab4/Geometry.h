@@ -27,7 +27,7 @@ struct GPointF {
 	}
 
 	bool operator==(const GPointF &a) const {
-		const float eps = 1e-5;
+		const float eps = 1e-2;
 		return getDistanceTo(a) < eps;
 	}
 };
@@ -131,7 +131,7 @@ struct GPlate {
 		float t1 = line.p1.getDistanceTo(*intersect);
 		float t2 = line.p2.getDistanceTo(*intersect);
 
-		const float eps = 1e-5;
+		const float eps = 1e-2;
 		if ((abs(pd - (p1 + p3)) <= eps && abs(pd - (p2 + p4)) <= eps) && abs(td - (t1 + t2)) <= eps) {
 			return intersect;
 		}
