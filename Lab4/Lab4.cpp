@@ -16,6 +16,8 @@
 #include "../CommonFiles/WindowPlate.h"
 #include <map>
 #include <set>
+#include <chrono>
+typedef std::chrono::high_resolution_clock Clock;
 
 bool g_debug = true;
 
@@ -94,8 +96,6 @@ void initCommonElements() {
 	sliderPermitions[L'N'] = SliderPermition(Mxn(0, 100), Mxn(0, 100), Mxn(0, 100));
 	sliderPermitions[L'C'] = SliderPermition(Mxn(0, 100), Mxn(0, 100), Mxn(0, 100), true, true, false);
 
-	//targetPoints[L'T'] = new GraphPoint(0, 0, 0, L"C");
-
 	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(140, 255, 255, 255)));
 	
 	for (auto &ob : targetPoints) {
@@ -107,11 +107,8 @@ void initCommonElements() {
 	
 	g_world.push_back(graphCube = new GraphCube(0, 50));
 
-	graphCube->debug = g_debug;
-
 	g_world.push_back(graphLine = new GraphLine(*targetPoints[L'M'], *targetPoints[L'N'], Color(170, 255, 170)));
 	g_world.push_back(targetPoints[L'C']);
-	//g_world.push_back(targetPoints[L'T']);
 
 	for (auto &ob : targetPoints) {
 		GraphLabel *wrapLabel = new GraphLabel(*ob.second, Color::Yellow);
@@ -184,16 +181,24 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 		case WM_PAINT:
 		{
+			auto start = Clock::now();
 			// init paint event
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hDlg, &ps);
 
 			secondPlate->render(hdc, 10 + firstPlate->getSize().Width + 10, 10);
 			firstPlate->render(hdc, 10, 10);
-			secondPlate->render(hdc, 10 + firstPlate->getSize().Width + 10, 10);
+						
+			secondPlate->render(hdc, 10 + firstPlate->getSize().Width + 10, 10);		
 			
-
 			firstPlate->blt(hdc, 10, 10);
+
+			auto end = Clock::now();
+			if (g_debug) {
+				secondPlate->paintTimeOfFrame(hdc, std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
+			}
+			
+			secondPlate->blt(hdc, 10 + firstPlate->getSize().Width + 10, 10);
 
 			wchar_t buf[255];
 			int it = SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_GETCURSEL, 0, 0);
@@ -324,11 +329,8 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 
 			if (LOWORD(wParam) == IDC_CHECKBOX_LABELS) {
 				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_LABELS), BM_GETCHECK, 0, 0);
-
+				g_debug = flag;
 				graphCube->debug = flag;
-				//for (auto &ob : wrapLabels) {
-				//	ob->setVisible(flag);
-				//}
 
 				InvalidateRect(hDlg, NULL, false);
 			}

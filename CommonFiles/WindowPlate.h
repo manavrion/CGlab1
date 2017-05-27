@@ -1,5 +1,6 @@
 #pragma once
 #include "afx.h"
+#include <string>
 //--------------------------------------------------------------------------------------
 // GDI+ plate
 //--------------------------------------------------------------------------------------
@@ -29,6 +30,10 @@ public:
 		paint(*backBufferGraphics, PointF(bufferSize.Width / 2, bufferSize.Height / 2));
 
 		BitBlt(hdc, x, y, bufferSize.Width, bufferSize.Height, backBufferHDC, 0, 0, SRCCOPY);
+	}
+
+	void paintTimeOfFrame(HDC hdc, int time) {
+		backBufferGraphics->DrawString((std::to_wstring(time) + L" ms (" + std::to_wstring(1000 / time) + L" fps)").c_str(), -1, &Gdiplus::Font(L"Arial", 7, FontStyleBold), PointF(1, 4), &Gdiplus::SolidBrush(Gdiplus::Color::White));
 	}
 
 	void blt(HDC hdc, int x, int y) {
