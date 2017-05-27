@@ -7,26 +7,15 @@
 #include <algorithm>
 #include <set>
 
-//прямоугольник в пространстве
-struct Plate {
-	Plate(GraphLine &a, GraphLine &b, GraphLine &c, GraphLine &d) : a(a), b(b), c(c), d(d) {
-
-	};
-
-	GraphLine a;
-	GraphLine b;
-	GraphLine c;
-	GraphLine d;
-
-};
-
 struct GraphCube : public GraphElement {
 
-	GraphCube(float center, float lineSz) : center(center), lineSz(lineSz) {
+	GraphCube(float center, float lineSz) : center(center), lineSz(lineSz), debug(false) {
 		initLines();
 	}
 
+	bool debug;
 protected:
+
 	float center;
 	float lineSz;
 	
@@ -66,65 +55,100 @@ protected:
 		lines.push_back(GraphLine(points[3], points[5], this->color));
 		lines.push_back(GraphLine(points[2], points[5], this->color));
 
-		plates.clear();
-
-		plates.push_back(Plate(lines[0], lines[2], lines[9], lines[8]));
-		plates.push_back(Plate(lines[1], lines[2], lines[10], lines[11]));
-		plates.push_back(Plate(lines[3], lines[5], lines[7], lines[11]));
-		plates.push_back(Plate(lines[4], lines[5], lines[6], lines[8]));
-		plates.push_back(Plate(lines[0], lines[1], lines[7], lines[6]));
-		plates.push_back(Plate(lines[3], lines[4], lines[9], lines[10]));
+		
 	}
 
 	vector<GraphPoint> points;
 	vector<GraphLine> lines;
-	vector<Plate> plates;
 
-	bool isVisibleLine(const GraphLine &line, const GPointF viewPoint) {
-		return isVisiblePoint(line.a);
+	bool isVisibleLine(const GraphLine &line, const GPointF viewPoint, Graphics &graphics, PointF center) {
+		return isVisiblePoint(line.a, viewPoint, graphics, center)
+			&& isVisiblePoint(line.b, viewPoint, graphics, center);
 	}
 
-	bool isVisiblePoint(const GraphPoint &point) {
+	vector<Plate> plates;
+	void updatePlates() {
+		plates.clear();
+		plates.push_back(Plate(points[0], points[1], points[6], points[3]));
+		plates.push_back(Plate(points[0], points[2], points[5], points[3]));
+		plates.push_back(Plate(points[7], points[2], points[5], points[4]));
+		plates.push_back(Plate(points[7], points[1], points[6], points[4]));
 
+		plates.push_back(Plate(points[0], points[1], points[7], points[2]));
+		plates.push_back(Plate(points[3], points[6], points[4], points[5]));
+	}
 
+	bool isVisiblePoint(const GPointF &point, const GPointF &viewPoint, Graphics &graphics, PointF center) {
+		updatePlates();
+		GLine mainvect(viewPoint, point);
+		
+		//mainvect.p1.z *= 2;
+		//mainvect.p1.x = 0;
 
-		vector<GPointF> intersects;
-		return true;
+		Color d_color(rand() % 255, rand() % 255, rand() % 255);
+
+		if (debug && debug_graphics != nullptr) {
+			GraphPoint d_p1(mainvect.p1.x, mainvect.p1.y, mainvect.p1.z);
+			GraphPoint d_p2(mainvect.p2.x, mainvect.p2.y, mainvect.p2.z);
+			GraphLine debug_v(d_p1, d_p2, d_color);
+			debug_v.paint(*debug_graphics, center);
+		}
+		
+		bool ret = true;
+
+		for (auto &plate : plates) {
+			GPointF *tmp = plate.intersectWithLine(mainvect);
+
+			if (tmp != nullptr) {
+				if (debug && debug_graphics != nullptr) {
+					GraphPoint d_p(tmp->x, tmp->y, tmp->z, d_color);
+					d_p.paint(*debug_graphics, center);
+				}
+				delete tmp;
+				ret = false;
+			}
+		}
+
+		return ret;
 	}
 
 
 
 public:
+	Graphics *debug_graphics = nullptr;
 	void paint(Graphics &graphics, PointF center) {
 		if (!visible) return;
+
+		debug_graphics = &graphics;
 
 		for (auto &ob : lines) {
 			ob.paint(graphics, center);
 		}
-
 	};
 
-	void paintComplex(Graphics &graphics, PointF center) {
-		if (!visible) return;
+	void paintComplex(Graphics &graphics, PointF center) {	};
 
-		for (auto &ob : lines) {
-			ob.paintComplex(graphics, center);
+	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
+		
+		if (!visible) return;
+		updateVisible(viewPoint, graphics, center);
+
+		for (auto &ob : lines) {			
+			ob.paintPerspective(graphics, center, viewPoint);
 		}
 	};
 
-	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
-
-		if (!visible) return;
-
+	void updateVisible(GPointF viewPoint, Graphics &graphics, PointF center) {
+		srand(666);
 		for (auto &ob : lines) {
-			if (isVisibleLine(ob, viewPoint)) {
+			if (isVisibleLine(ob, viewPoint, graphics, center)) {
 				ob.setColor(color);
 			} else {
 				ob.setColor(Gdiplus::Color(40, color.GetR(), color.GetG(), color.GetB()));
 			}
-			ob.paintPerspective(graphics, center, viewPoint);
 		}
-	};
+	}
+
 
 	void resetCube() {
 		initLines();

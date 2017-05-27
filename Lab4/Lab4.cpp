@@ -17,7 +17,34 @@
 #include <map>
 #include <set>
 
+bool g_debug = true;
+
 INT_PTR CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
+
+#undef max
+#undef min
+
+struct Mxn {
+	Mxn() : min(), max() {};
+	Mxn(int min, int max) : min(min), max(max) {};
+	int min;
+	int max;
+};
+
+struct SliderPermition {
+	SliderPermition()
+		: x(), y(), z(), lockX(), lockY(), lockZ(), dx(1), dy(1), dz(1) {};
+	SliderPermition(Mxn x, Mxn y, Mxn z, bool lockX = false, bool lockY = false, bool lockZ = false) 
+		: x(x), y(y), z(z), lockX(lockX), lockY(lockY), lockZ(lockZ), dx(1), dy(1), dz(1) {};
+	Mxn x;
+	Mxn y;
+	Mxn z;
+	bool lockX, lockY, lockZ;
+	float dx;
+	float dy;
+	float dz;
+};
+
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -46,6 +73,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 vector<GraphElement*> g_world;
 
 map<wchar_t, GraphPoint*> targetPoints;
+map<wchar_t, SliderPermition> sliderPermitions;
 
 set<GraphWrapCube*> wrapCubes;
 set<GraphLabel*> wrapLabels;
@@ -62,7 +90,11 @@ void initCommonElements() {
 
 	targetPoints[L'C'] = new GraphPoint(0, 0, 50, L"C");
 
-	targetPoints[L'T'] = new GraphPoint(0, 0, 0, L"C");
+	sliderPermitions[L'M'] = SliderPermition(Mxn(0, 100), Mxn(0, 100), Mxn(0, 100));
+	sliderPermitions[L'N'] = SliderPermition(Mxn(0, 100), Mxn(0, 100), Mxn(0, 100));
+	sliderPermitions[L'C'] = SliderPermition(Mxn(0, 100), Mxn(0, 100), Mxn(0, 100), true, true, false);
+
+	//targetPoints[L'T'] = new GraphPoint(0, 0, 0, L"C");
 
 	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(140, 255, 255, 255)));
 	
@@ -73,11 +105,13 @@ void initCommonElements() {
 		g_world.push_back(wrapCube);
 	}
 	
-	g_world.push_back(graphCube = new GraphCube(0, 25));
+	g_world.push_back(graphCube = new GraphCube(0, 50));
+
+	graphCube->debug = g_debug;
 
 	g_world.push_back(graphLine = new GraphLine(*targetPoints[L'M'], *targetPoints[L'N'], Color(170, 255, 170)));
 	g_world.push_back(targetPoints[L'C']);
-	g_world.push_back(targetPoints[L'T']);
+	//g_world.push_back(targetPoints[L'T']);
 
 	for (auto &ob : targetPoints) {
 		GraphLabel *wrapLabel = new GraphLabel(*ob.second, Color::Yellow);
@@ -154,10 +188,12 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hDlg, &ps);
 
+			secondPlate->render(hdc, 10 + firstPlate->getSize().Width + 10, 10);
 			firstPlate->render(hdc, 10, 10);
 			secondPlate->render(hdc, 10 + firstPlate->getSize().Width + 10, 10);
+			
 
-
+			firstPlate->blt(hdc, 10, 10);
 
 			wchar_t buf[255];
 			int it = SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_GETCURSEL, 0, 0);

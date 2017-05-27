@@ -31,6 +31,10 @@ public:
 		BitBlt(hdc, x, y, bufferSize.Width, bufferSize.Height, backBufferHDC, 0, 0, SRCCOPY);
 	}
 
+	void blt(HDC hdc, int x, int y) {
+		BitBlt(hdc, x, y, bufferSize.Width, bufferSize.Height, backBufferHDC, 0, 0, SRCCOPY);
+	}
+
 	Size getSize() {
 		return bufferSize;
 	}

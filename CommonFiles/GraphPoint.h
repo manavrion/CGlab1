@@ -10,7 +10,7 @@ struct GraphPoint : public GraphElement {
 	float x, y, z;
 	std::wstring name;
 
-	PointF getProjection(PointF center) {
+	virtual PointF getProjection(PointF center) {
 		center.X += -x;
 		center.Y += -z;
 

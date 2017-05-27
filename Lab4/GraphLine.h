@@ -15,13 +15,13 @@ struct GraphLine : public OldGraphLine::GraphLine {
 	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
 
 		if (!visible) return;
-		PointF *pos0 = toCenter(GMatrix::getProjection(this->a, viewPoint), center);
+		PointF *pos0 = toCenter(GMatrix::getProjection(a, viewPoint), center);
 		PointF *pos1 = toCenter(searchPoint(viewPoint), center);
-		PointF *pos2 = toCenter(GMatrix::getProjection(this->a, viewPoint), center);
+		PointF *pos2 = toCenter(GMatrix::getProjection(b, viewPoint), center);
 
-		if (pos1 == nullptr) {
+		if (pos1 == nullptr && pos0 != nullptr && pos2 != nullptr) {
 			drawLine(graphics, pos0, pos2);
-		} else {
+		} else if (pos1 != nullptr && pos0 != nullptr && pos2 != nullptr) {
 			drawLine(graphics, pos0, pos1);
 			drawLine(graphics, pos1, pos2);
 		}		
@@ -31,14 +31,18 @@ struct GraphLine : public OldGraphLine::GraphLine {
 		delete pos2;
 	};
 
+	operator GLine() {
+		return GLine(a, b);
+	}
+
 protected:
 
 	PointF *searchPoint(GPointF viewPoint) {
 
-		const float eps = 0.001;
+		const float eps = 0.1;
 
-		GPointF l = this->a;
-		GPointF r = this->b;
+		GPointF l = a;
+		GPointF r = b;
 
 		PointF *fl = GMatrix::getProjection(l, viewPoint);
 		PointF *fr = GMatrix::getProjection(r, viewPoint);
