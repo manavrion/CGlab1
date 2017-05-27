@@ -31,6 +31,7 @@ GPointF *Plate::intersectWithLine(const GLine & line) {
 	float t1 = line.p1.getGistanceTo(*intersect);
 	float t2 = line.p2.getGistanceTo(*intersect);
 
+	const float eps = 1e-3;
 	//return intersect;
 	if ((abs(dd - (p1 + p3)) <= eps && abs(dd - (p2 + p4)) <= eps) && abs(h - (t1 + t2)) <= eps) {
 		return intersect;

@@ -82,7 +82,7 @@ protected:
 		updatePlates();
 		GLine mainvect(viewPoint, point);
 		
-		//mainvect.p1.z *= 2;
+		mainvect.p1.z += 400;
 		//mainvect.p1.x = 0;
 
 		Color d_color(rand() % 255, rand() % 255, rand() % 255);
@@ -90,7 +90,7 @@ protected:
 		if (debug && debug_graphics != nullptr) {
 			GraphPoint d_p1(mainvect.p1.x, mainvect.p1.y, mainvect.p1.z);
 			GraphPoint d_p2(mainvect.p2.x, mainvect.p2.y, mainvect.p2.z);
-			GraphLine debug_v(d_p1, d_p2, d_color);
+			GraphLine debug_v(d_p1, d_p2, d_color, 1);
 			debug_v.paint(*debug_graphics, center);
 		}
 		

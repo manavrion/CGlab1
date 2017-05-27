@@ -15,8 +15,9 @@ struct GraphLine : public OldGraphLine::GraphLine {
 	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
 
 		if (!visible) return;
+
 		PointF *pos0 = toCenter(GMatrix::getProjection(a, viewPoint), center);
-		PointF *pos1 = toCenter(searchPoint(viewPoint), center);
+		PointF *pos1 = toCenter(searchPoint(a, b, viewPoint), center);
 		PointF *pos2 = toCenter(GMatrix::getProjection(b, viewPoint), center);
 
 		if (pos1 == nullptr && pos0 != nullptr && pos2 != nullptr) {
@@ -37,15 +38,13 @@ struct GraphLine : public OldGraphLine::GraphLine {
 
 protected:
 
-	PointF *searchPoint(GPointF viewPoint) {
+	//left -> null
+	PointF *searchPoint(GPointF left, GPointF right, GPointF viewPoint) {
 
-		const float eps = 0.1;
+		const float eps = 0.001;
 
-		GPointF l = a;
-		GPointF r = b;
-
-		PointF *fl = GMatrix::getProjection(l, viewPoint);
-		PointF *fr = GMatrix::getProjection(r, viewPoint);
+		PointF *fl = GMatrix::getProjection(left, viewPoint);
+		PointF *fr = GMatrix::getProjection(right, viewPoint);
 
 		if (fl == fr) {
 			delete fl;
@@ -54,27 +53,27 @@ protected:
 		}
 		if (fl != nullptr) {
 			swap(fl, fr);
-			swap(l, r);
+			swap(left, right);
 		}
 
 		//binary search
-		while (l.getGistanceTo(r) > eps) {
+		while (left.getGistanceTo(right) > eps) {
 
-			GPointF h((l.x + r.x)/2.0, (l.y + r.y)/2.0, (l.z + r.z)/2.0);
+			GPointF h((left.x + right.x)/2.0, (left.y + right.y)/2.0, (left.z + right.z)/2.0);
 
 			PointF *fh = GMatrix::getProjection(h, viewPoint);
 
 			if (fh == nullptr) {
-				l = h;
+				left = h;
 			} else {
-				r = h;
+				right = h;
 			}
 			delete fh;
 		}
 		delete fl;
 		delete fr;
 
-		return GMatrix::getProjection(r, viewPoint);
+		return GMatrix::getProjection(right, viewPoint);
 	}
 	
 	PointF *toCenter(PointF *point, PointF center) {

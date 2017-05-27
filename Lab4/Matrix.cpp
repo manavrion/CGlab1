@@ -23,7 +23,7 @@ GPointF GMatrix::applyMatrixTo(GPointF point, const GMatrix &m) {
 
 PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
 	
-	if (point.z >= viewPoint.z) {
+	if (point.z + 1 >= viewPoint.z) {
 		return nullptr;
 	}
 
@@ -64,7 +64,10 @@ PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
 		ob /= param;
 	}
 
-	const float Eps = 1e6;
+
+
+
+	const float Eps = 175;
 	if (abs(newpts[0]) <= Eps && abs(newpts[1]) <= Eps) {
 		return new PointF(newpts[0], newpts[1]);
 	}	

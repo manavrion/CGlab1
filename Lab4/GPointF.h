@@ -1,6 +1,6 @@
 #pragma once
 
-const float eps = 1e-3;
+
 
 struct GPointF {
 	GPointF(float x, float y, float z) : x(x), y(y), z(z) {}
@@ -27,6 +27,7 @@ struct GPointF {
 	}
 
 	bool operator==(const GPointF &a) const {
+		const float eps = 1e-2;
 		return getGistanceTo(a) < eps;
 	}
 };
