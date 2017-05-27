@@ -22,19 +22,13 @@ GPointF GMatrix::applyMatrixTo(GPointF point, const GMatrix &m) {
 }
 
 PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
-	
-	if (point.z + 1 >= viewPoint.z) {
-		return nullptr;
+
+	if (point.z >= viewPoint.z) {
+		return nullptr;		
 	}
 
 	float c = viewPoint.z;
 
-	/*if ((point.z - c) == 0) {
-		return nullptr;
-	}
-	if (c == 0) {
-		return nullptr;
-	}*/
 	float t = -c / (point.z - c);
 
 	float matrix[4][4] =
@@ -58,18 +52,26 @@ PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
 		}
 	}
 
-	float param = (-t / (c) + 1);
+	float param = (-t / (c ) + 1);
+
+	if (point.z >= viewPoint.z / param || param == 0 ) {
+		return nullptr;
+	}
+
+	/*if (point.z >= viewPoint.z / param || param == 0 || point.z <= -viewPoint.z / param) {
+		return nullptr;		
+	}*/
 
 	for (auto &ob : newpts) {
 		ob /= param;
 	}
+	
 
-
-
-
-	const float Eps = 175;
+	/*const float Eps = 1175;
 	if (abs(newpts[0]) <= Eps && abs(newpts[1]) <= Eps) {
 		return new PointF(newpts[0], newpts[1]);
-	}	
-	return nullptr;
+	}
+
+	return nullptr;*/
+	return new PointF(newpts[0], newpts[1]);
 }
