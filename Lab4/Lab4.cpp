@@ -276,12 +276,12 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			}
 
 			if (LOWORD(wParam) == IDC_BUTTONSHIFT) {
-				graphCube->shiftTo(*targetPoints[L'M'], *targetPoints[L'N']);
+				graphCube->shiftTo(targetPoints[L'M']->getGPointF(), targetPoints[L'N']->getGPointF());
 				InvalidateRect(hDlg, NULL, false);
 			}
 
 			if (LOWORD(wParam) == IDC_BUTTONROTATE) {
-				graphCube->rotateTo(*targetPoints[L'M'], *targetPoints[L'N']);
+				graphCube->rotateTo(targetPoints[L'M']->getGPointF(), targetPoints[L'N']->getGPointF());
 				InvalidateRect(hDlg, NULL, false);
 			}
 

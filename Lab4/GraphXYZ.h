@@ -3,10 +3,14 @@
 #include "GraphPoint.h"
 #include "GraphLine.h"
 
-struct GraphXYZ : public GraphElement, public Old2DEdition::GraphXYZ {
+namespace OldGraphXYZ {
+#include "../CommonFiles/GraphXYZ.h"
+}
+
+struct GraphXYZ : public OldGraphXYZ::GraphXYZ {
 
 	GraphXYZ(Color xyzColor, Color textColor) : 
-		Old2DEdition::GraphXYZ(xyzColor, textColor)
+		OldGraphXYZ::GraphXYZ(xyzColor, textColor)
 	{ 
 		color = xyzColor;
 	}

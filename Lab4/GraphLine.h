@@ -4,20 +4,21 @@
 #include "GraphPoint.h"
 #include "Matrix.h"
 
-struct GraphLine : public GraphElement, public Old2DEdition::GraphLine {
+namespace OldGraphLine {
+#include "../CommonFiles/GraphLine.h"
+}
+
+struct GraphLine : public OldGraphLine::GraphLine {
 
 	GraphLine(GraphPoint &a, GraphPoint &b, Color color, int width = 2) 
-		: Old2DEdition::GraphLine(a, b, color, width)
-	{
-		this->color = color;
-	}
+		: OldGraphLine::GraphLine(a, b, color, width) {}
 
 	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
 
 		if (!visible) return;
-		PointF *pos0 = toCenter(GMatrix::getProjection(this->a, viewPoint), center);
+		PointF *pos0 = toCenter(GMatrix::getProjection(this->a.getGPointF(), viewPoint), center);
 		PointF *pos1 = toCenter(searchPoint(viewPoint), center);
-		PointF *pos2 = toCenter(GMatrix::getProjection(this->b, viewPoint), center);
+		PointF *pos2 = toCenter(GMatrix::getProjection(this->a.getGPointF(), viewPoint), center);
 
 		if (pos1 == nullptr) {
 			drawLine(graphics, pos0, pos2);
@@ -37,8 +38,8 @@ protected:
 
 		const float eps = 0.001;
 
-		GPointF l = this->a;
-		GPointF r = this->b;
+		GPointF l = this->a.getGPointF();
+		GPointF r = this->b.getGPointF();
 
 		PointF *fl = GMatrix::getProjection(l, viewPoint);
 		PointF *fr = GMatrix::getProjection(r, viewPoint);

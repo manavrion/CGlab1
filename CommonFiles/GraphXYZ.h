@@ -1,8 +1,7 @@
 #pragma once
 #include "afx.h"
-#include "GraphLine.h"
 
-struct GraphXYZ : virtual public GraphElement {
+struct GraphXYZ : public GraphElement {
 
 	GraphXYZ(Color xyzColor, Color textColor) : 
 		GraphElement(color),

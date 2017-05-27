@@ -1,8 +1,7 @@
 #pragma once
 #include "afx.h"
-#include "GraphPoint.h"
 
-struct GraphLabel : virtual public GraphElement {
+struct GraphLabel : public GraphElement {
 
 	GraphLabel(GraphPoint &target, Color color) :
 		target(target),

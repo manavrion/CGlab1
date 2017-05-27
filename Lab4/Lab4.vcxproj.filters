@@ -64,9 +64,6 @@
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>
     <ClCompile Include="Lab4.cpp" />
-    <ClCompile Include="GraphPoint.cpp">
-      <Filter>Файлы исходного кода</Filter>
-    </ClCompile>
     <ClCompile Include="Matrix.cpp">
       <Filter>Файлы исходного кода</Filter>
     </ClCompile>

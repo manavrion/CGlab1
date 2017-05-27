@@ -1,8 +1,7 @@
 #pragma once
 #include "afx.h"
-#include "GraphPoint.h"
 
-struct GraphWrapCube : virtual public GraphElement {
+struct GraphWrapCube : public GraphElement {
 
 	GraphWrapCube(GraphPoint &target, Color color, int width = 2) :
 		target(target), width(width), GraphElement(color) {};

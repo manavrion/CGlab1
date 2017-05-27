@@ -1,12 +1,14 @@
 #pragma once
 #include "afx.h"
-#include "GraphElement.h"
-#include "GraphPoint.h"
 
-struct GraphLabel : public GraphElement, public Old2DEdition::GraphLabel {
+namespace OldGraphLabel {
+#include "../CommonFiles/GraphLabel.h"
+}
+
+struct GraphLabel : public OldGraphLabel::GraphLabel {
 
 	GraphLabel(GraphPoint &target, Color color) :
-		Old2DEdition::GraphLabel(target, color)
+		OldGraphLabel::GraphLabel(target, color)
 	{ }
 
 	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {};

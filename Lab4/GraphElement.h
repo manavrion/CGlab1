@@ -2,19 +2,14 @@
 #include "afx.h"
 #include "GPointF.h"
 
-namespace Old2DEdition {
+namespace OldGraphElement {
 #include "../CommonFiles/GraphElement.h"
-#include "../CommonFiles/GraphPoint.h"
-#include "../CommonFiles/GraphLine.h"
-#include "../CommonFiles/GraphLabel.h"
-#include "../CommonFiles/GraphWrapCube.h"
-#include "../CommonFiles/GraphXYZ.h"
 }
 
-class GraphElement : virtual public Old2DEdition::GraphElement {
+class GraphElement : public OldGraphElement::GraphElement {
 public:
-	GraphElement(Color color = Color::White) : Old2DEdition::GraphElement(color) {}
+	GraphElement(Color color = Color::White) : OldGraphElement::GraphElement(color) {}
 
-	virtual void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) = 0;
+	virtual void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {};
 
 };
