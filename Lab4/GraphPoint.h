@@ -23,7 +23,7 @@ public:
 		return center;
 	}
 
-	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
+	void paintPerspective(Graphics &graphics, PointF center, Geomenty::GPointF viewPoint) {
 		if (!visible) return;
 
 		center.X -= 3;
@@ -37,7 +37,7 @@ public:
 		}
 	}
 
-	PointF *getPerspectiveProjectionPoint(PointF center, GPointF viewPoint) {
+	PointF *getPerspectiveProjectionPoint(PointF center, Geomenty::GPointF viewPoint) {
 		PointF *ret = GMatrix::getProjection(*this, viewPoint);
 		if (ret == nullptr) {
 			return ret;
@@ -47,7 +47,7 @@ public:
 		return ret;
 	}
 
-	operator GPointF() {
-		return GPointF(x, y, z);
+	operator Geomenty::GPointF() {
+		return Geomenty::GPointF(x, y, z);
 	}
 };

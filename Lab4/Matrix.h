@@ -36,9 +36,9 @@ public:
 
 	}
 
-	static GPointF applyMatrixTo(GPointF point, const GMatrix &m);
+	static Geomenty::GPointF applyMatrixTo(Geomenty::GPointF point, const GMatrix &m);
 
-	static PointF *getProjection(GPointF point, GPointF viewPoint);
+	static PointF *getProjection(Geomenty::GPointF point, Geomenty::GPointF viewPoint);
 
 public:
 

@@ -10,6 +10,6 @@ class GraphElement : public OldGraphElement::GraphElement {
 public:
 	GraphElement(Color color = Color::White) : OldGraphElement::GraphElement(color) {}
 
-	virtual void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {};
+	virtual void paintPerspective(Graphics &graphics, PointF center, Geomenty::GPointF viewPoint) {};
 
 };

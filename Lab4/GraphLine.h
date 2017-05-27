@@ -12,7 +12,7 @@ struct GraphLine : public OldGraphLine::GraphLine {
 
 	GraphLine(GraphPoint &a, GraphPoint &b, Color color, int width = 2) : OldGraphLine::GraphLine(a, b, color, width) {}
 
-	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
+	void paintPerspective(Graphics &graphics, PointF center, Geomenty::GPointF viewPoint) {
 
 		if (!visible) return;
 
@@ -32,14 +32,14 @@ struct GraphLine : public OldGraphLine::GraphLine {
 		delete pos2;
 	};
 
-	operator GLine() {
-		return GLine(a, b);
+	operator Geomenty::GLine() {
+		return Geomenty::GLine(a, b);
 	}
 
 protected:
 
 	//left -> null
-	PointF *searchPoint(GPointF left, GPointF right, GPointF viewPoint) {
+	PointF *searchPoint(Geomenty::GPointF left, Geomenty::GPointF right, Geomenty::GPointF viewPoint) {
 
 		const float eps = 0.001;
 
@@ -59,7 +59,7 @@ protected:
 		//binary search
 		while (left.getDistanceTo(right) > eps) {
 
-			GPointF h((left.x + right.x)/2.0, (left.y + right.y)/2.0, (left.z + right.z)/2.0);
+			Geomenty::GPointF h((left.x + right.x)/2.0, (left.y + right.y)/2.0, (left.z + right.z)/2.0);
 
 			PointF *fh = GMatrix::getProjection(h, viewPoint);
 

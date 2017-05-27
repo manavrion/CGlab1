@@ -56,7 +56,7 @@ struct GraphXYZ : public OldGraphXYZ::GraphXYZ {
 	};
 
 
-	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {
+	void paintPerspective(Graphics &graphics, PointF center, Geomenty::GPointF viewPoint) {
 
 		if (!visible) return;
 

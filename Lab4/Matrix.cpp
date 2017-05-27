@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Matrix.h"
 
-GPointF GMatrix::applyMatrixTo(GPointF point, const GMatrix &m) {
+Geomenty::GPointF GMatrix::applyMatrixTo(Geomenty::GPointF point, const GMatrix &m) {
 	float one = 1;
 	vector<float*> pts;
 	vector<float> newpts(4);
@@ -76,21 +76,21 @@ GPointF GMatrix::applyMatrixTo(GPointF point, const GMatrix &m) {
 	return new PointF(newpts[0], newpts[1]);
 }*/
 
-PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
+PointF *GMatrix::getProjection(Geomenty::GPointF point, Geomenty::GPointF viewPoint) {
 
 	float focus = 20;
 
 	float scaling = 8;
 
-	GLine main_vector(point, viewPoint);
+	Geomenty::GLine main_vector(point, viewPoint);
 
-	GPlate screen(
-		GPointF(10075.0f, 10075.0f, viewPoint.z - focus), 
-		GPointF(10075.0f, -10075.0f, viewPoint.z - focus), 
-		GPointF(-10075.0f, -10075.0f, viewPoint.z - focus),
-		GPointF(-10075.0f, 10075.0f, viewPoint.z - focus));
+	Geomenty::GPlate screen(
+		Geomenty::GPointF(10075.0f, 10075.0f, viewPoint.z - focus), 
+		Geomenty::GPointF(10075.0f, -10075.0f, viewPoint.z - focus), 
+		Geomenty::GPointF(-10075.0f, -10075.0f, viewPoint.z - focus),
+		Geomenty::GPointF(-10075.0f, 10075.0f, viewPoint.z - focus));
 
-	GPointF *proj = screen.intersectWithLine(main_vector);
+	Geomenty::GPointF *proj = screen.intersectWithLine(main_vector);
 
 	if (proj == nullptr) {
 		return nullptr;
