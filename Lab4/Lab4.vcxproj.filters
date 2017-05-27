@@ -55,7 +55,7 @@
     <ClInclude Include="GraphXYZ.h">
       <Filter>SimpleObjects</Filter>
     </ClInclude>
-    <ClInclude Include="GPointF.h">
+    <ClInclude Include="Geometry.h">
       <Filter>SimpleObjects</Filter>
     </ClInclude>
   </ItemGroup>

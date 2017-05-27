@@ -84,7 +84,7 @@ PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
 
 	GLine main_vector(point, viewPoint);
 
-	Plate screen(
+	GPlate screen(
 		GPointF(10075.0f, 10075.0f, viewPoint.z - focus), 
 		GPointF(10075.0f, -10075.0f, viewPoint.z - focus), 
 		GPointF(-10075.0f, -10075.0f, viewPoint.z - focus),

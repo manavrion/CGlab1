@@ -57,7 +57,7 @@ protected:
 		}
 
 		//binary search
-		while (left.getGistanceTo(right) > eps) {
+		while (left.getDistanceTo(right) > eps) {
 
 			GPointF h((left.x + right.x)/2.0, (left.y + right.y)/2.0, (left.z + right.z)/2.0);
 

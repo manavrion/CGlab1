@@ -1,6 +1,6 @@
 #pragma once
 #include <cmath>
-#include "GPointF.h"
+#include "Geometry.h"
 
 class GMatrix {
 public:

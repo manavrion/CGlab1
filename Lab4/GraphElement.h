@@ -1,6 +1,6 @@
 #pragma once
 #include "afx.h"
-#include "GPointF.h"
+#include "Geometry.h"
 
 namespace OldGraphElement {
 #include "../CommonFiles/GraphElement.h"

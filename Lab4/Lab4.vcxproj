@@ -136,7 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="afx.h" />
-    <ClInclude Include="GPointF.h" />
+    <ClInclude Include="Geometry.h" />
     <ClInclude Include="GraphCube.h" />
     <ClInclude Include="GraphElement.h" />
     <ClInclude Include="GraphLabel.h" />

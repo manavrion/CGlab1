@@ -66,16 +66,16 @@ protected:
 			&& isVisiblePoint(line.b, viewPoint, graphics, center);
 	}
 
-	vector<Plate> plates;
+	vector<GPlate> plates;
 	void updatePlates() {
 		plates.clear();
-		plates.push_back(Plate(points[0], points[1], points[6], points[3]));
-		plates.push_back(Plate(points[0], points[2], points[5], points[3]));
-		plates.push_back(Plate(points[7], points[2], points[5], points[4]));
-		plates.push_back(Plate(points[7], points[1], points[6], points[4]));
+		plates.push_back(GPlate(points[0], points[1], points[6], points[3]));
+		plates.push_back(GPlate(points[0], points[2], points[5], points[3]));
+		plates.push_back(GPlate(points[7], points[2], points[5], points[4]));
+		plates.push_back(GPlate(points[7], points[1], points[6], points[4]));
 
-		plates.push_back(Plate(points[0], points[1], points[7], points[2]));
-		plates.push_back(Plate(points[3], points[6], points[4], points[5]));
+		plates.push_back(GPlate(points[0], points[1], points[7], points[2]));
+		plates.push_back(GPlate(points[3], points[6], points[4], points[5]));
 	}
 
 	bool isVisiblePoint(const GPointF &point, const GPointF &viewPoint, Graphics &graphics, PointF center) {
