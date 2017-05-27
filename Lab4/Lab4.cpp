@@ -187,16 +187,16 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hDlg, &ps);
 
-			secondPlate->render(hdc, 10 + firstPlate->getSize().Width + 10, 10);
-			firstPlate->render(hdc, 10, 10);
+			secondPlate->render();
+			firstPlate->render();
 						
-			secondPlate->render(hdc, 10 + firstPlate->getSize().Width + 10, 10);		
+			secondPlate->render();		
 			
 			firstPlate->blt(hdc, 10, 10);
 
 			auto end = Clock::now();
 			if (g_fps) {
-				secondPlate->paintTimeOfFrame(hdc, std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
+				secondPlate->paintTimeOfFrame(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
 			}
 			
 			secondPlate->blt(hdc, 10 + firstPlate->getSize().Width + 10, 10);
