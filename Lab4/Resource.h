@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Visual C++ generated include file.
-// Used by Lab4.rc
+// Включаемый файл, созданный в Microsoft Visual C++.
+// Используется Lab4.rc
 //
 #define IDC_MYICON                      2
 #define IDD_LAB4_DIALOG                 102
@@ -39,6 +39,7 @@
 #define IDC_CHECKBOX_LABELS             1014
 #define IDC_CHECKBOX_LABELS2            1015
 #define IDC_CHECKBOX_WRAPPERS           1015
+#define IDC_CHECKBOX_WRAPPERS2          1016
 #define IDC_LISTOFPOINTS                1019
 #define IDC_BUTTONSHIFT                 1020
 #define IDC_BUTTONSHIFT2                1021

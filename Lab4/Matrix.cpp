@@ -21,7 +21,7 @@ GPointF GMatrix::applyMatrixTo(GPointF point, const GMatrix &m) {
 	return point;
 }
 
-PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
+/*PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
 
 	if (point.z >= viewPoint.z) {
 		return nullptr;		
@@ -58,20 +58,45 @@ PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
 		return nullptr;
 	}
 
-	/*if (point.z >= viewPoint.z / param || param == 0 || point.z <= -viewPoint.z / param) {
-		return nullptr;		
-	}*/
+	//if (point.z >= viewPoint.z / param || param == 0 || point.z <= -viewPoint.z / param) {
+	//	return nullptr;		
+	//}
 
 	for (auto &ob : newpts) {
 		ob /= param;
 	}
 	
 
-	/*const float Eps = 1175;
-	if (abs(newpts[0]) <= Eps && abs(newpts[1]) <= Eps) {
-		return new PointF(newpts[0], newpts[1]);
-	}
-
-	return nullptr;*/
+	//const float Eps = 1175;
+	//if (abs(newpts[0]) <= Eps && abs(newpts[1]) <= Eps) {
+	//	return new PointF(newpts[0], newpts[1]);
+	//}
+	//
+	//return nullptr;
 	return new PointF(newpts[0], newpts[1]);
+}*/
+
+PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
+
+	float focus = 20;
+
+	float scaling = 8;
+
+	GLine main_vector(point, viewPoint);
+
+	Plate screen(
+		GPointF(175.0f, 175.0f, viewPoint.z - focus), 
+		GPointF(175.0f, -175.0f, viewPoint.z - focus), 
+		GPointF(-175.0f, -175.0f, viewPoint.z - focus),
+		GPointF(-175.0f, 175.0f, viewPoint.z - focus));
+
+	GPointF *proj = screen.intersectWithLine(main_vector);
+
+	if (proj == nullptr) {
+		return nullptr;
+	} else {
+		PointF *ret = new PointF(proj->x*scaling, proj->y*scaling);
+		delete proj;
+		return ret;
+	}
 }

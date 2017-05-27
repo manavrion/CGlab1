@@ -82,7 +82,7 @@ protected:
 		updatePlates();
 		GLine mainvect(viewPoint, point);
 		
-		mainvect.p1.z += 400;
+		//mainvect.p1.z += 25;
 		//mainvect.p1.x = 0;
 
 		Color d_color(rand() % 255, rand() % 255, rand() % 255);

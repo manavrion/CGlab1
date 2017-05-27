@@ -325,9 +325,10 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			if (LOWORD(wParam) == IDC_CHECKBOX_LABELS) {
 				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_LABELS), BM_GETCHECK, 0, 0);
 
-				for (auto &ob : wrapLabels) {
-					ob->setVisible(flag);
-				}
+				graphCube->debug = flag;
+				//for (auto &ob : wrapLabels) {
+				//	ob->setVisible(flag);
+				//}
 
 				InvalidateRect(hDlg, NULL, false);
 			}
