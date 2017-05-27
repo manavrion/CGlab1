@@ -39,7 +39,7 @@
 #define IDC_CHECKBOX_LABELS             1014
 #define IDC_CHECKBOX_LABELS2            1015
 #define IDC_CHECKBOX_WRAPPERS           1015
-#define IDC_CHECKBOX_WRAPPERS2          1016
+#define IDC_CHECKBOX_FPS                1015
 #define IDC_LISTOFPOINTS                1019
 #define IDC_BUTTONSHIFT                 1020
 #define IDC_BUTTONSHIFT2                1021

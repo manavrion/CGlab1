@@ -19,7 +19,8 @@
 #include <chrono>
 typedef std::chrono::high_resolution_clock Clock;
 
-bool g_debug = true;
+bool g_debug = false;
+bool g_fps = false;
 
 INT_PTR CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -194,7 +195,7 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			firstPlate->blt(hdc, 10, 10);
 
 			auto end = Clock::now();
-			if (g_debug) {
+			if (g_fps) {
 				secondPlate->paintTimeOfFrame(hdc, std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
 			}
 			
@@ -335,13 +336,9 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				InvalidateRect(hDlg, NULL, false);
 			}
 
-			if (LOWORD(wParam) == IDC_CHECKBOX_WRAPPERS) {
-				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_WRAPPERS), BM_GETCHECK, 0, 0);
-
-				for (auto &ob : wrapCubes) {
-					ob->setVisible(flag);
-				}
-
+			if (LOWORD(wParam) == IDC_CHECKBOX_FPS) {
+				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_FPS), BM_GETCHECK, 0, 0);
+				g_fps = flag;
 				InvalidateRect(hDlg, NULL, false);
 			}
 
