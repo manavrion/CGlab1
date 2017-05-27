@@ -20,9 +20,9 @@ struct GraphLine : public OldGraphLine::GraphLine {
 		PointF *pos1 = toCenter(searchPoint(a, b, viewPoint), center);
 		PointF *pos2 = toCenter(GMatrix::getProjection(b, viewPoint), center);
 
-		if (pos1 == nullptr) {
+		if (pos0 != nullptr && pos2 != nullptr) {
 			drawLine(graphics, pos0, pos2);
-		} else if (pos1 != nullptr) {
+		} else if (pos1 != nullptr /*&& pos0 != nullptr && pos2 != nullptr*/) {
 			drawLine(graphics, pos0, pos1);
 			drawLine(graphics, pos1, pos2);
 		}		

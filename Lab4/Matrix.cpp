@@ -85,10 +85,10 @@ PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
 	GLine main_vector(point, viewPoint);
 
 	Plate screen(
-		GPointF(175.0f, 175.0f, viewPoint.z - focus), 
-		GPointF(175.0f, -175.0f, viewPoint.z - focus), 
-		GPointF(-175.0f, -175.0f, viewPoint.z - focus),
-		GPointF(-175.0f, 175.0f, viewPoint.z - focus));
+		GPointF(10075.0f, 10075.0f, viewPoint.z - focus), 
+		GPointF(10075.0f, -10075.0f, viewPoint.z - focus), 
+		GPointF(-10075.0f, -10075.0f, viewPoint.z - focus),
+		GPointF(-10075.0f, 10075.0f, viewPoint.z - focus));
 
 	GPointF *proj = screen.intersectWithLine(main_vector);
 
