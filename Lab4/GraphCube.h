@@ -145,7 +145,7 @@ public:
 		GMatrix matrix(mat);
 
 		for (auto &ob : points) {
-			GPointF p = GMatrix::applyMatrixTo(ob.getGPointF(), matrix);
+			GPointF p = GMatrix::applyMatrixTo(ob, matrix);
 			ob.x = p.x;
 			ob.y = p.y;
 			ob.z = p.z;
@@ -167,7 +167,7 @@ public:
 		GMatrix matrix = matrixA2*matrixA3;
 
 		for (auto &ob : points) {
-			GPointF p = GMatrix::applyMatrixTo(ob.getGPointF(), matrix);
+			GPointF p = GMatrix::applyMatrixTo(ob, matrix);
 			ob.x = p.x;
 			ob.y = p.y;
 			ob.z = p.z;

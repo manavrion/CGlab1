@@ -276,12 +276,12 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			}
 
 			if (LOWORD(wParam) == IDC_BUTTONSHIFT) {
-				graphCube->shiftTo(targetPoints[L'M']->getGPointF(), targetPoints[L'N']->getGPointF());
+				graphCube->shiftTo(*targetPoints[L'M'], *targetPoints[L'N']);
 				InvalidateRect(hDlg, NULL, false);
 			}
 
 			if (LOWORD(wParam) == IDC_BUTTONROTATE) {
-				graphCube->rotateTo(targetPoints[L'M']->getGPointF(), targetPoints[L'N']->getGPointF());
+				graphCube->rotateTo(*targetPoints[L'M'], *targetPoints[L'N']);
 				InvalidateRect(hDlg, NULL, false);
 			}
 
@@ -327,6 +327,6 @@ void paintFirstPlate(Graphics &graphics, PointF center) {
 
 void paintSecondPlate(Graphics &graphics, PointF center) {
 	for (auto ob : g_world) {
-		ob->paintPerspective(graphics, center, targetPoints[L'C']->getGPointF());
+		ob->paintPerspective(graphics, center, *targetPoints[L'C']);
 	}
 };

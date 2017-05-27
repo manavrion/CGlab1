@@ -7,9 +7,5 @@ namespace OldGraphLabel {
 
 struct GraphLabel : public OldGraphLabel::GraphLabel {
 
-	GraphLabel(GraphPoint &target, Color color) :
-		OldGraphLabel::GraphLabel(target, color)
-	{ }
-
-	void paintPerspective(Graphics &graphics, PointF center, GPointF viewPoint) {};
+	GraphLabel(GraphPoint &target, Color color) : OldGraphLabel::GraphLabel(target, color) {}
 };
