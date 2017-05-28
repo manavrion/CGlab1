@@ -1,5 +1,6 @@
 #pragma once
 #include "afx.h"
+#include "Geometry.h"
 #include "Matrix.h"
 
 #include "GraphElement.h"
@@ -12,6 +13,8 @@ class GraphPoint : public OldGraphPoint::GraphPoint {
 public:
 	GraphPoint(float x, float y, float z, std::wstring name = L"") : OldGraphPoint::GraphPoint(x, y, z, name) {};
 
+	GraphPoint(const Geometry::GPointF &pnt) : OldGraphPoint::GraphPoint(pnt.x, pnt.y, pnt.z, L"") {};
+
 	GraphPoint(float x, float y, float z, Color color, std::wstring name = L"") : OldGraphPoint::GraphPoint(x, y, z, color, name) {};
 
 	PointF getProjection(PointF center) {
@@ -23,7 +26,7 @@ public:
 		return center;
 	}
 
-	void paintPerspective(Graphics &graphics, PointF center, Geomenty::GPointF viewPoint) {
+	void paintPerspective(Graphics &graphics, PointF center, Geometry::GPointF viewPoint) {
 		if (!visible) return;
 
 		center.X -= 3;
@@ -37,7 +40,7 @@ public:
 		}
 	}
 
-	PointF *getPerspectiveProjectionPoint(PointF center, Geomenty::GPointF viewPoint) {
+	PointF *getPerspectiveProjectionPoint(PointF center, Geometry::GPointF viewPoint) {
 		PointF *ret = GMatrix::getProjection(*this, viewPoint);
 		if (ret == nullptr) {
 			return ret;
@@ -47,7 +50,7 @@ public:
 		return ret;
 	}
 
-	operator Geomenty::GPointF() {
-		return Geomenty::GPointF(x, y, z);
+	operator Geometry::GPointF() {
+		return Geometry::GPointF(x, y, z);
 	}
 };

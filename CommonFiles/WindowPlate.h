@@ -40,6 +40,10 @@ public:
 	Size getSize() {
 		return bufferSize;
 	}
+
+	Graphics *getGraphics() {
+		return backBufferGraphics;
+	}
 private:
 	Size bufferSize;
 

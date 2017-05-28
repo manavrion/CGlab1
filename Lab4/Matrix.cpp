@@ -1,7 +1,11 @@
 #include "stdafx.h"
 #include "Matrix.h"
+#include "Lab4.h"
 
-Geomenty::GPointF GMatrix::applyMatrixTo(Geomenty::GPointF point, const GMatrix &m) {
+
+#include "GraphLine.h"
+
+Geometry::GPointF GMatrix::applyMatrixTo(Geometry::GPointF point, const GMatrix &m) {
 	float one = 1;
 	vector<float*> pts;
 	vector<float> newpts(4);
@@ -76,17 +80,21 @@ Geomenty::GPointF GMatrix::applyMatrixTo(Geomenty::GPointF point, const GMatrix 
 	return new PointF(newpts[0], newpts[1]);
 }*/
 
-PointF *GMatrix::getProjection(Geomenty::GPointF point, Geomenty::GPointF viewPoint) {
 
+Geometry::GPointF * GMatrix::getIntersect(Geometry::GPointF point, Geometry::GPointF viewPoint) {
 	float focus = 20;
 
+	Geometry::GLine main_vector(point, viewPoint);
+	Geometry::GPlate screen(viewPoint.z - focus);
+	Geometry::GPointF *proj = screen.intersectWithLineUnborder(main_vector);
+
+	return proj;
+}
+
+PointF *GMatrix::getProjection(Geometry::GPointF point, Geometry::GPointF viewPoint) {
 	float scaling = 8;
 
-	Geomenty::GLine main_vector(point, viewPoint);
-
-	Geomenty::GPlate screen(viewPoint.z - focus);
-
-	Geomenty::GPointF *proj = screen.intersectWithLineUnborder(main_vector);
+	Geometry::GPointF *proj = getIntersect(point, viewPoint);
 
 	if (proj == nullptr) {
 		return nullptr;
@@ -95,4 +103,27 @@ PointF *GMatrix::getProjection(Geomenty::GPointF point, Geomenty::GPointF viewPo
 		delete proj;
 		return ret;
 	}
+}
+
+
+
+void GMatrix::debugProjection(Geometry::GPointF point, Geometry::GPointF viewPoint) {
+
+	if (!g_proj) {
+		return;
+	}
+
+	Geometry::GPointF *proj = getIntersect(point, viewPoint);
+
+	if (proj == nullptr) {
+		return;
+	}
+
+	GraphPoint t1 = viewPoint;
+	GraphPoint t2 = *proj;
+
+	GraphLine line(t1, t2, Color::LightBlue, 1);
+
+	line.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+
 }

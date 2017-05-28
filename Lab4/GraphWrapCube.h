@@ -11,5 +11,5 @@ struct GraphWrapCube : public OldGraphWrapCube::GraphWrapCube {
 	GraphWrapCube(GraphPoint &target, Color color, int width = 2) :
 		OldGraphWrapCube::GraphWrapCube(target, color, width) {};
 
-	void paintPerspective(Graphics &graphics, PointF center, Geomenty::GPointF viewPoint) {};
+	void paintPerspective(Graphics &graphics, PointF center, Geometry::GPointF viewPoint) {};
 };

@@ -91,7 +91,7 @@ void initCommonElements() {
 	targetPoints[L'M'] = new GraphPoint(0, 0, 0, L"M");
 	targetPoints[L'N'] = new GraphPoint(0, 0, 0, L"N");
 
-	targetPoints[L'C'] = new GraphPoint(0, 0, 50, L"C");
+	targetPoints[L'C'] = new GraphPoint(0, 0, 75, L"C");
 
 
 	targetPoints[L'F'] = new GraphPoint(0, 0, 20, L"F");
@@ -99,7 +99,7 @@ void initCommonElements() {
 
 	sliderPermitions[L'M'] = SliderPermition(Mxn(0, 100, 0, 1), Mxn(0, 100, 0, 1), Mxn(0, 100, 0, 1));
 	sliderPermitions[L'N'] = SliderPermition(Mxn(0, 100, 0, 1), Mxn(0, 100, 0, 1), Mxn(0, 100, 0, 1));
-	sliderPermitions[L'C'] = SliderPermition(Mxn(0, 100, 0, 1), Mxn(0, 100, 0, 1), Mxn(0, 1000, 50*10, 0.1), true, true, false);
+	sliderPermitions[L'C'] = SliderPermition(Mxn(0, 100, 0, 1), Mxn(0, 100, 0, 1), Mxn(0, 1000, 75*10, 0.1), true, true, false);
 
 
 	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(140, 255, 255, 255)));
@@ -138,14 +138,13 @@ void slidersReset() {
 
 }
 
+WindowPlate *g_firstWindowPlate = nullptr;
+WindowPlate *g_secondWindowPlate = nullptr;
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
 //--------------------------------------------------------------------------------------
 INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
-	UNREFERENCED_PARAMETER(lParam);
-
-	static WindowPlate *firstPlate;
-	static WindowPlate *secondPlate;
+	UNREFERENCED_PARAMETER(lParam);	
 
 	static function<void(wchar_t)> initSliders;
 
@@ -156,15 +155,15 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				delete ob;
 			}			
 			g_world.clear();
-			delete firstPlate;
-			delete secondPlate;
+			delete g_firstWindowPlate;
+			delete g_secondWindowPlate;
 			break;
 		}
 		case WM_INITDIALOG:
 		{
 			initCommonElements();
-			firstPlate = new WindowPlate(paintFirstPlate);
-			secondPlate = new WindowPlate(paintSecondPlate);
+			g_firstWindowPlate = new WindowPlate(paintFirstPlate);
+			g_secondWindowPlate = new WindowPlate(paintSecondPlate);
 
 			//init list
 			SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_ADDSTRING, 0, (LPARAM)L"C (view point)");
@@ -193,19 +192,19 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			PAINTSTRUCT ps;
 			HDC hdc = BeginPaint(hDlg, &ps);
 
-			secondPlate->render();
-			firstPlate->render();
+			g_secondWindowPlate->render();
+			g_firstWindowPlate->render();
 						
-			secondPlate->render();		
+			g_secondWindowPlate->render();		
 			
-			firstPlate->blt(hdc, 10, 10);
+			g_firstWindowPlate->blt(hdc, 10, 10);
 
 			auto end = Clock::now();
 			if (g_fps) {
-				secondPlate->paintTimeOfFrame(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
+				g_secondWindowPlate->paintTimeOfFrame(std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count());
 			}
 			
-			secondPlate->blt(hdc, 10 + firstPlate->getSize().Width + 10, 10);
+			g_secondWindowPlate->blt(hdc, 10 + g_firstWindowPlate->getSize().Width + 10, 10);
 
 			wchar_t buf[255];
 			int it = SendMessage(GetDlgItem(hDlg, IDC_LISTOFPOINTS), LB_GETCURSEL, 0, 0);
@@ -355,7 +354,7 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				InvalidateRect(hDlg, NULL, false);
 			}
 			if (LOWORD(wParam) == IDC_CHECKBOX_PROJ) {
-				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_FPS), BM_GETCHECK, 0, 0);
+				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_PROJ), BM_GETCHECK, 0, 0);
 				g_proj = flag;
 				InvalidateRect(hDlg, NULL, false);
 			}

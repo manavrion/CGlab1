@@ -36,9 +36,12 @@ public:
 
 	}
 
-	static Geomenty::GPointF applyMatrixTo(Geomenty::GPointF point, const GMatrix &m);
+	static Geometry::GPointF applyMatrixTo(Geometry::GPointF point, const GMatrix &m);
 
-	static PointF *getProjection(Geomenty::GPointF point, Geomenty::GPointF viewPoint);
+	static PointF *getProjection(Geometry::GPointF point, Geometry::GPointF viewPoint);
+	static Geometry::GPointF *getIntersect(Geometry::GPointF point, Geometry::GPointF viewPoint);
+
+	static void debugProjection(Geometry::GPointF point, Geometry::GPointF viewPoint);
 
 public:
 

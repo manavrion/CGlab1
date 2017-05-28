@@ -61,26 +61,26 @@ protected:
 	vector<GraphPoint> points;
 	vector<GraphLine> lines;
 
-	bool isVisibleLine(const GraphLine &line, const Geomenty::GPointF viewPoint, Graphics &graphics, PointF center) {
+	bool isVisibleLine(const GraphLine &line, const Geometry::GPointF viewPoint, Graphics &graphics, PointF center) {
 		return isVisiblePoint(line.a, viewPoint, graphics, center)
 			&& isVisiblePoint(line.b, viewPoint, graphics, center);
 	}
 
-	vector<Geomenty::GPlate> plates;
+	vector<Geometry::GPlate> plates;
 	void updatePlates() {
 		plates.clear();
-		plates.push_back(Geomenty::GPlate(points[0], points[1], points[6], points[3]));
-		plates.push_back(Geomenty::GPlate(points[0], points[2], points[5], points[3]));
-		plates.push_back(Geomenty::GPlate(points[7], points[2], points[5], points[4]));
-		plates.push_back(Geomenty::GPlate(points[7], points[1], points[6], points[4]));
+		plates.push_back(Geometry::GPlate(points[0], points[1], points[6], points[3]));
+		plates.push_back(Geometry::GPlate(points[0], points[2], points[5], points[3]));
+		plates.push_back(Geometry::GPlate(points[7], points[2], points[5], points[4]));
+		plates.push_back(Geometry::GPlate(points[7], points[1], points[6], points[4]));
 
-		plates.push_back(Geomenty::GPlate(points[0], points[1], points[7], points[2]));
-		plates.push_back(Geomenty::GPlate(points[3], points[6], points[4], points[5]));
+		plates.push_back(Geometry::GPlate(points[0], points[1], points[7], points[2]));
+		plates.push_back(Geometry::GPlate(points[3], points[6], points[4], points[5]));
 	}
 
-	bool isVisiblePoint(const Geomenty::GPointF &point, const Geomenty::GPointF &viewPoint, Graphics &graphics, PointF center) {
+	bool isVisiblePoint(const Geometry::GPointF &point, const Geometry::GPointF &viewPoint, Graphics &graphics, PointF center) {
 		updatePlates();
-		Geomenty::GLine mainvect(viewPoint, point);
+		Geometry::GLine mainvect(viewPoint, point);
 		
 		//mainvect.p1.z += 25;
 		//mainvect.p1.x = 0;
@@ -97,7 +97,7 @@ protected:
 		bool ret = true;
 
 		for (auto &plate : plates) {
-			Geomenty::GPointF *tmp = plate.intersectWithLine(mainvect);
+			Geometry::GPointF *tmp = plate.intersectWithLine(mainvect);
 
 			if (tmp != nullptr) {
 				if (debug && debug_graphics != nullptr) {
@@ -128,7 +128,7 @@ public:
 
 	void paintComplex(Graphics &graphics, PointF center) {	};
 
-	void paintPerspective(Graphics &graphics, PointF center, Geomenty::GPointF viewPoint) {
+	void paintPerspective(Graphics &graphics, PointF center, Geometry::GPointF viewPoint) {
 		
 		if (!visible) return;
 		updateVisible(viewPoint, graphics, center);
@@ -138,7 +138,7 @@ public:
 		}
 	};
 
-	void updateVisible(Geomenty::GPointF viewPoint, Graphics &graphics, PointF center) {
+	void updateVisible(Geometry::GPointF viewPoint, Graphics &graphics, PointF center) {
 		srand(666);
 		for (auto &ob : lines) {
 			if (isVisibleLine(ob, viewPoint, graphics, center)) {
@@ -159,8 +159,8 @@ public:
 	}
 
 
-	void shiftTo(Geomenty::GPointF m, Geomenty::GPointF n) {
-		Geomenty::GPointF px(n.x - m.x, n.y - m.y, n.z - m.z);
+	void shiftTo(Geometry::GPointF m, Geometry::GPointF n) {
+		Geometry::GPointF px(n.x - m.x, n.y - m.y, n.z - m.z);
 		float mat[4][4] = { { 1, 0, 0, -px.x },
 		{ 0, 1, 0, -px.y },
 		{ 0, 0, 1, -px.z },
@@ -169,15 +169,15 @@ public:
 		GMatrix matrix(mat);
 
 		for (auto &ob : points) {
-			Geomenty::GPointF p = GMatrix::applyMatrixTo(ob, matrix);
+			Geometry::GPointF p = GMatrix::applyMatrixTo(ob, matrix);
 			ob.x = p.x;
 			ob.y = p.y;
 			ob.z = p.z;
 		}
 	}
 
-	void rotateTo(Geomenty::GPointF m, Geomenty::GPointF n) {
-		Geomenty::GPointF px(n.x - m.x, n.y - m.y, n.z - m.z);
+	void rotateTo(Geometry::GPointF m, Geometry::GPointF n) {
+		Geometry::GPointF px(n.x - m.x, n.y - m.y, n.z - m.z);
 		px.normalize();
 
 		GMatrix matrixA2 = GMatrix::getXRotateMatrix(asin(px.y));
@@ -191,7 +191,7 @@ public:
 		GMatrix matrix = matrixA2*matrixA3;
 
 		for (auto &ob : points) {
-			Geomenty::GPointF p = GMatrix::applyMatrixTo(ob, matrix);
+			Geometry::GPointF p = GMatrix::applyMatrixTo(ob, matrix);
 			ob.x = p.x;
 			ob.y = p.y;
 			ob.z = p.z;

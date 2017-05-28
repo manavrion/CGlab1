@@ -1,6 +1,6 @@
 #pragma once
 
-namespace Geomenty {
+namespace Geometry {
 
 	struct GPointF {
 		GPointF(float x, float y, float z) : x(x), y(y), z(z) {}
