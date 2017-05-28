@@ -75,7 +75,7 @@ struct GraphXYZ : public GraphElement {
 		graphics.DrawString(L"-Z", -1, &font, PointF(center - 23, center * 2 - 23), &textBrush);
 		graphics.DrawString(L"Y", -1, &font, PointF(center + 5, center * 2 - 23), &textBrush);
 
-		Color xyzColor(140, 140, 140);
+		Color xyzColor(0, 0, 0);
 		// vert. and hor. lines
 		graphics.DrawLine(&Pen(xyzColor, 2), Point(0, center), Point(center * 2, center));
 		graphics.DrawLine(&Pen(xyzColor, 2), Point(center, 0), Point(center, center * 2));

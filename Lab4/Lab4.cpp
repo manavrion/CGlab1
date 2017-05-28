@@ -173,15 +173,6 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 
 	static function<void(wchar_t)> initSliders;
 
-	static function<void()> updateFS = [=]() {
-		wstring s;
-		s += L"Focus: ";
-		s += to_wstring(g_focus);
-		s += L", scaling: ";
-		s += to_wstring(g_scaling);
-		SendMessage(GetDlgItem(hDlg, IDC_STATIC_FS), WM_SETTEXT, 0, (LPARAM)(s.c_str()));
-	};
-
 	switch (message) {
 		case WM_DESTROY:
 		{
@@ -221,13 +212,7 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_RESETX1), !sliderPermitions[obj].lockX);
 				EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_RESETY1), !sliderPermitions[obj].lockY);
 				EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_RESETZ1), !sliderPermitions[obj].lockZ);
-
-				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_FOCUS), TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(g_mxnOfFocus.min, g_mxnOfFocus.max));
-				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_FOCUS), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(g_focus / g_mxnOfFocus.dx));
 				
-				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_SCALING), TBM_SETRANGE, (WPARAM)TRUE, (LPARAM)MAKELONG(g_mxnOfScaling.min, g_mxnOfScaling.max));
-				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_SCALING), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(g_scaling / g_mxnOfScaling.dx));
-				updateFS();
 			};
 
 			initSliders(L'C');
@@ -271,8 +256,6 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				s += L")";
 				SendMessage(GetDlgItem(hDlg, IDC_STATIC_POSITION1), WM_SETTEXT, 0, (LPARAM)(s.c_str()));
 			}			
-			
-			updateFS();
 
 			EndPaint(hDlg, &ps);
 			break;
@@ -298,18 +281,6 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			}
 			if ((HWND)lParam == GetDlgItem(hDlg, IDC_SLIDER_Z1)) {
 				targetPoints[buf[0]]->z = SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Z1), TBM_GETPOS, 0, 0) * sliderPermitions[buf[0]].z.dx;
-				InvalidateRect(hDlg, NULL, false);
-			}
-
-			if ((HWND)lParam == GetDlgItem(hDlg, IDC_SLIDER_FOCUS)) {
-				g_focus = SendMessage(GetDlgItem(hDlg, IDC_SLIDER_FOCUS), TBM_GETPOS, 0, 0) * g_mxnOfFocus.dx;
-				//updateFS();
-				InvalidateRect(hDlg, NULL, false);
-			}
-
-			if ((HWND)lParam == GetDlgItem(hDlg, IDC_SLIDER_SCALING)) {
-				g_scaling = SendMessage(GetDlgItem(hDlg, IDC_SLIDER_SCALING), TBM_GETPOS, 0, 0) * g_mxnOfScaling.dx;
-				//updateFS();
 				InvalidateRect(hDlg, NULL, false);
 			}
 
@@ -376,26 +347,15 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				if (!sliderPermitions[buf[0]].lockX) {
 					SendMessage(GetDlgItem(hDlg, IDC_SLIDER_X1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)sliderPermitions[buf[0]].x.def);
 					targetPoints[buf[0]]->x = sliderPermitions[buf[0]].x.def * sliderPermitions[buf[0]].x.dx;
-					InvalidateRect(hDlg, NULL, false);
 				}
 				if (!sliderPermitions[buf[0]].lockY) {
 					SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Y1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)sliderPermitions[buf[0]].y.def);
 					targetPoints[buf[0]]->y = sliderPermitions[buf[0]].y.def * sliderPermitions[buf[0]].y.dx;
-					InvalidateRect(hDlg, NULL, false);
 				}
 				if (!sliderPermitions[buf[0]].lockZ) {
 					SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Z1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)sliderPermitions[buf[0]].z.def);
 					targetPoints[buf[0]]->z = sliderPermitions[buf[0]].z.def * sliderPermitions[buf[0]].z.dx;
-					InvalidateRect(hDlg, NULL, false);
 				}
-
-
-				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_FOCUS), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(g_mxnOfFocus.def));
-				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_SCALING), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(g_mxnOfScaling.def));
-				g_focus = g_mxnOfFocus.def * g_mxnOfFocus.dx;
-				g_scaling = g_mxnOfScaling.def * g_mxnOfScaling.dx;
-
-				updateFS();			
 
 				InvalidateRect(hDlg, NULL, false);
 			}
@@ -426,17 +386,6 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				g_debug = flag;
 				graphCube->debug = flag;
 
-				InvalidateRect(hDlg, NULL, false);
-			}
-
-			if (LOWORD(wParam) == IDC_CHECKBOX_FPS) {
-				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_FPS), BM_GETCHECK, 0, 0);
-				g_fps = flag;
-				InvalidateRect(hDlg, NULL, false);
-			}
-			if (LOWORD(wParam) == IDC_CHECKBOX_PROJ) {
-				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_PROJ), BM_GETCHECK, 0, 0);
-				g_proj = flag;
 				InvalidateRect(hDlg, NULL, false);
 			}
 

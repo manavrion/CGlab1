@@ -21,7 +21,6 @@
 #define IDC_SLIDER_Z                    1002
 #define IDC_SLIDER_Z1                   1002
 #define IDC_SLIDER_X2                   1003
-#define IDC_SLIDER_FOCUS                1003
 #define IDC_BUTTON_RESETX               1004
 #define IDC_BUTTON_RESETX1              1004
 #define IDC_BUTTON_RESETY               1005
@@ -42,14 +41,10 @@
 #define IDC_CHECKBOX_LABELS             1014
 #define IDC_CHECKBOX_LABELS2            1015
 #define IDC_CHECKBOX_WRAPPERS           1015
-#define IDC_CHECKBOX_FPS                1015
-#define IDC_CHECKBOX_PROJ               1016
 #define IDC_LISTOFPOINTS                1019
 #define IDC_BUTTONSHIFT                 1020
 #define IDC_BUTTONSHIFT2                1021
 #define IDC_BUTTONROTATE                1021
-#define IDC_STATIC_FS                   1022
-#define IDC_EDIT1                       1023
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
