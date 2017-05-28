@@ -179,6 +179,14 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_X1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(targetPoints[obj]->x / sliderPermitions[obj].x.dx));
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Y1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(targetPoints[obj]->y / sliderPermitions[obj].y.dx));
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Z1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(targetPoints[obj]->z / sliderPermitions[obj].z.dx));
+
+				EnableWindow(GetDlgItem(hDlg, IDC_SLIDER_X1), !sliderPermitions[obj].lockX);
+				EnableWindow(GetDlgItem(hDlg, IDC_SLIDER_Y1), !sliderPermitions[obj].lockY);
+				EnableWindow(GetDlgItem(hDlg, IDC_SLIDER_Z1), !sliderPermitions[obj].lockZ);
+
+				EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_RESETX1), !sliderPermitions[obj].lockX);
+				EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_RESETY1), !sliderPermitions[obj].lockY);
+				EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_RESETZ1), !sliderPermitions[obj].lockZ);
 			};
 
 			initSliders(L'C');
