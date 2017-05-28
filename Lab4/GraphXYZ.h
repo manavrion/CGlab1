@@ -49,7 +49,7 @@ struct GraphXYZ : public GraphElement {
 		// painting labels
 		graphics.DrawString(L"Y", -1, &font, PointF(center + 10, center / 4), &textBrush);
 		graphics.DrawString(L"X", -1, &font, PointF(center * 1.75, center + 9), &textBrush);
-		graphics.DrawString(L"Z", -1, &font, PointF(center / 2, center * 2 - center / 2 + 9), &textBrush);
+		graphics.DrawString(L"Z", -1, &font, PointF(center * 1.85 - center / 2 - 3, center * 1.85 - center / 2 + 12), &textBrush);
 	};
 
 

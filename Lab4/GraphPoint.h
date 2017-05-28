@@ -17,11 +17,11 @@ struct GraphPoint : public GraphElement {
 	std::wstring name;
 
 	PointF getProjection(PointF center) {
-		center.X += x;
+		center.X += -x;
 		center.Y += -y;
 
-		center.X -= z*0.75;
-		center.Y += z*0.75;
+		center.X += z*0.55;
+		center.Y += z*0.55;
 		return center;
 	}
 
