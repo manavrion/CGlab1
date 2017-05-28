@@ -20,6 +20,7 @@
 #define IDC_SLIDER_Z                    1002
 #define IDC_SLIDER_Z1                   1002
 #define IDC_SLIDER_X2                   1003
+#define IDC_SLIDER_FOCUS                1003
 #define IDC_BUTTON_RESETX               1004
 #define IDC_BUTTON_RESETX1              1004
 #define IDC_BUTTON_RESETY               1005
@@ -31,6 +32,8 @@
 #define IDC_SLIDER_Y2                   1008
 #define IDC_BUTTON_RESETALL             1008
 #define IDC_SLIDER_Z2                   1009
+#define IDC_SLIDER_X3                   1009
+#define IDC_SLIDER_SCALING              1009
 #define IDC_BUTTON_RESETX2              1010
 #define IDC_BUTTON_RESETY2              1011
 #define IDC_BUTTON_RESETZ2              1012
@@ -40,12 +43,12 @@
 #define IDC_CHECKBOX_LABELS2            1015
 #define IDC_CHECKBOX_WRAPPERS           1015
 #define IDC_CHECKBOX_FPS                1015
-#define IDC_CHECKBOX_FPS2               1016
 #define IDC_CHECKBOX_PROJ               1016
 #define IDC_LISTOFPOINTS                1019
 #define IDC_BUTTONSHIFT                 1020
 #define IDC_BUTTONSHIFT2                1021
 #define IDC_BUTTONROTATE                1021
+#define IDC_STATIC_FS                   1022
 #define IDC_STATIC                      -1
 
 // Next default values for new objects
@@ -55,7 +58,7 @@
 #define _APS_NO_MFC                     1
 #define _APS_NEXT_RESOURCE_VALUE        129
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1021
+#define _APS_NEXT_CONTROL_VALUE         1023
 #define _APS_NEXT_SYMED_VALUE           110
 #endif
 #endif

@@ -82,24 +82,22 @@ Geometry::GPointF GMatrix::applyMatrixTo(Geometry::GPointF point, const GMatrix 
 
 
 Geometry::GPointF * GMatrix::getIntersect(Geometry::GPointF point, Geometry::GPointF viewPoint) {
-	float focus = 20;
 
 	Geometry::GLine main_vector(point, viewPoint);
-	Geometry::GPlate screen(viewPoint.z - focus);
+	Geometry::GPlate screen(viewPoint.z - g_focus); //def g_focus = 20
 	Geometry::GPointF *proj = screen.intersectWithLineUnborder(main_vector);
 
 	return proj;
 }
 
 PointF *GMatrix::getProjection(Geometry::GPointF point, Geometry::GPointF viewPoint) {
-	float scaling = 8;
 
 	Geometry::GPointF *proj = getIntersect(point, viewPoint);
 
 	if (proj == nullptr) {
 		return nullptr;
 	} else {
-		PointF *ret = new PointF(proj->x*scaling, proj->y*scaling);
+		PointF *ret = new PointF(proj->x*g_scaling, proj->y*g_scaling); //def g_focus = 8
 		delete proj;
 		return ret;
 	}
