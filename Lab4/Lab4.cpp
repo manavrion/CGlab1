@@ -361,13 +361,13 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			if (LOWORD(wParam) == IDC_BUTTON_RESETALL) {
 				for (auto &ob : targetPoints) {
 					if (!sliderPermitions[ob.first].lockX) {
-						targetPoints[ob.first]->x = sliderPermitions[ob.first].x.def * sliderPermitions[buf[0]].x.dx;
+						targetPoints[ob.first]->x = sliderPermitions[ob.first].x.def * sliderPermitions[ob.first].x.dx;
 					}
 					if (!sliderPermitions[ob.first].lockY) {
-						targetPoints[ob.first]->y = sliderPermitions[ob.first].y.def * sliderPermitions[buf[0]].y.dx;
+						targetPoints[ob.first]->y = sliderPermitions[ob.first].y.def * sliderPermitions[ob.first].y.dx;
 					}
 					if (!sliderPermitions[ob.first].lockZ) {
-						targetPoints[ob.first]->z = sliderPermitions[ob.first].z.def * sliderPermitions[buf[0]].z.dx;
+						targetPoints[ob.first]->z = sliderPermitions[ob.first].z.def * sliderPermitions[ob.first].z.dx;
 					}
 				}
 
