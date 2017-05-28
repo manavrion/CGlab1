@@ -9,38 +9,10 @@ namespace OldGraphXYZ {
 
 struct GraphXYZ : public OldGraphXYZ::GraphXYZ {
 
-	GraphXYZ(Color xyzColor, Color textColor) : 
-		OldGraphXYZ::GraphXYZ(xyzColor, textColor)
-	{ 
-		color = xyzColor;
-	}
-
-	void init() override {
-		
-		int xyzHeight = 130;
-
-		//xyz
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(-xyzHeight, 0, 0), color));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, -xyzHeight, 0), color));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(0, 0, -xyzHeight), color));
-
-		//xyz arrows
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(xyzHeight - 20, 0, 10), color));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(xyzHeight - 20, 0, -10), color));
-		
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, xyzHeight - 20, 10), color));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, xyzHeight - 20, -10), color));
-		
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(10, 0, xyzHeight - 20), color));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(-10, 0, xyzHeight - 20), color));
-	}
+	GraphXYZ(Color xyzColor, Color textColor) : OldGraphXYZ::GraphXYZ(xyzColor, textColor) { }
 
 	virtual void paint(Graphics &graphics, PointF center_p) {
 		if (!visible) return;
-
-		if (toPaintElements.empty()) {
-			init();
-		}
 
 		for (auto &ob : toPaintElements) {
 			ob->paint(graphics, center_p);

@@ -97,7 +97,7 @@ PointF *GMatrix::getProjection(Geometry::GPointF point, Geometry::GPointF viewPo
 	if (proj == nullptr) {
 		return nullptr;
 	} else {
-		PointF *ret = new PointF(proj->x*g_scaling, proj->y*g_scaling); //def g_focus = 8
+		PointF *ret = new PointF(proj->x*g_scaling, proj->y*g_scaling); //def g_scaling = 8
 		delete proj;
 		return ret;
 	}
@@ -120,8 +120,35 @@ void GMatrix::debugProjection(Geometry::GPointF point, Geometry::GPointF viewPoi
 	GraphPoint t1 = viewPoint;
 	GraphPoint t2 = *proj;
 
-	GraphLine line(t1, t2, Color::LightBlue, 1);
+	GraphLine line(t1, t2, Color(85, 150, 150, 255), 1);
 
-	line.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+
+	//camera
+	GraphPoint &l = t1;
+	GraphPoint l1 = Geometry::GPointF(175 / g_scaling, 175 / g_scaling, viewPoint.z - g_focus);
+	GraphPoint l2 = Geometry::GPointF(175 / g_scaling, -175 / g_scaling, viewPoint.z - g_focus);
+	GraphPoint l3 = Geometry::GPointF(-175 / g_scaling, -175 / g_scaling, viewPoint.z - g_focus);
+	GraphPoint l4 = Geometry::GPointF(-175 / g_scaling, 175 / g_scaling, viewPoint.z - g_focus);
+	GraphLine line1(l1, l2, Color(5, 255, 0, 0), 1);
+	GraphLine line2(l2, l3, Color(5, 255, 0, 0), 1);
+	GraphLine line3(l3, l4, Color(5, 255, 0, 0), 1);
+	GraphLine line4(l4, l1, Color(5, 255, 0, 0), 1);
+	GraphLine line5(l1, l, Color(5, 255, 0, 0), 2);
+	GraphLine line6(l2, l, Color(5, 255, 0, 0), 2);
+	GraphLine line7(l3, l, Color(5, 255, 0, 0), 2);
+	GraphLine line8(l4, l, Color(5, 255, 0, 0), 2);
+	line1.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+	line2.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+	line3.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+	line4.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+	line5.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+	line6.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+	line7.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+	line8.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+
+
+	if (abs(line.b.x) <= 175 / g_scaling && abs(line.b.y) <= 175 / g_scaling) {
+		line.paint(*g_firstWindowPlate->getGraphics(), PointF(175, 175));
+	}
 
 }
