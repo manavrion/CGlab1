@@ -73,7 +73,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
 	// run window
-	DialogBox(NULL, MAKEINTRESOURCE(IDD_ABOUTBOX), NULL, wndProc);
+	DialogBox(NULL, MAKEINTRESOURCE(IDD_MAINWINDOW), NULL, wndProc);
 
 	return 0;
 }
@@ -143,13 +143,28 @@ int sliderDz;
 void paintFirstPlate(Graphics &graphics, PointF center);
 void paintSecondPlate(Graphics &graphics, PointF center);
 
-
-void slidersReset() {
-
-}
-
 WindowPlate *g_firstWindowPlate = nullptr;
 WindowPlate *g_secondWindowPlate = nullptr;
+
+
+INT_PTR CALLBACK wndFailProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) {
+	switch (message) {
+		case WM_INITDIALOG:
+		{
+			return (INT_PTR)TRUE;
+		}
+		case WM_COMMAND:
+		{
+			if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL) {
+				EndDialog(hDlg, LOWORD(wParam));
+				return (INT_PTR)TRUE;
+			}
+			break;
+		}
+	}
+	return (INT_PTR)FALSE;
+}
+
 //--------------------------------------------------------------------------------------
 // Called every time the application receives a message
 //--------------------------------------------------------------------------------------
@@ -386,13 +401,23 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 			}
 
 			if (LOWORD(wParam) == IDC_BUTTONSHIFT) {
-				graphCube->shiftTo(*targetPoints[L'M'], *targetPoints[L'N']);
-				InvalidateRect(hDlg, NULL, false);
+				if (Geometry::GPointF(*targetPoints[L'M']) == Geometry::GPointF(*targetPoints[L'N'])) {
+					// run window
+					DialogBox(NULL, MAKEINTRESOURCE(IDD_FAILWINDOW), hDlg, wndFailProc);
+				} else {
+					graphCube->shiftTo(*targetPoints[L'M'], *targetPoints[L'N']);
+					InvalidateRect(hDlg, NULL, false);
+				}
 			}
 
 			if (LOWORD(wParam) == IDC_BUTTONROTATE) {
-				graphCube->rotateTo(*targetPoints[L'M'], *targetPoints[L'N']);
-				InvalidateRect(hDlg, NULL, false);
+				if (Geometry::GPointF(*targetPoints[L'M']) == Geometry::GPointF(*targetPoints[L'N'])) {
+					// run window
+					DialogBox(NULL, MAKEINTRESOURCE(IDD_FAILWINDOW), hDlg, wndFailProc);
+				} else {
+					graphCube->rotateTo(*targetPoints[L'M'], *targetPoints[L'N']);
+					InvalidateRect(hDlg, NULL, false);
+				}
 			}
 
 
@@ -420,7 +445,6 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 	}
 	return (INT_PTR)FALSE;
 }
-
 
 
 //--------------------------------------------------------------------------------------
