@@ -25,7 +25,7 @@ Geometry::GPointF GMatrix::applyMatrixTo(Geometry::GPointF point, const GMatrix 
 	return point;
 }
 
-/*PointF *GMatrix::getProjection(GPointF point, GPointF viewPoint) {
+/*PointF *GMatrix::getProjection(Geometry::GPointF point, Geometry::GPointF viewPoint) {
 
 	if (point.z >= viewPoint.z) {
 		return nullptr;		

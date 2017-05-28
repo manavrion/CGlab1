@@ -8,11 +8,11 @@ namespace Geometry {
 		float x, y, z;
 
 		float getDistanceTo(const GPointF &p) const {
-			return sqrt(pow(p.x - x, 2) + pow(p.y - y, 2) + pow(p.z - z, 2));
+			return sqrt((p.x - x)*(p.x - x) + (p.y - y)*(p.y - y) + (p.z - z)*(p.z - z));
 		}
 
 		float hypot() const {
-			return sqrt(pow(x, 2) + pow(y, 2) + pow(z, 2));
+			return sqrt(x*x + y*y + z*z);
 		}
 
 		void normalize() {
@@ -27,7 +27,7 @@ namespace Geometry {
 		}
 
 		bool operator==(const GPointF &a) const {
-			const float eps = 1e-2;
+			const float eps = 1e-4;
 			return getDistanceTo(a) < eps;
 		}
 	};
@@ -127,8 +127,8 @@ namespace Geometry {
 			float p4 = l4.getDistanceTo(*intersect);
 
 			float pd = a.getDistanceTo(b);
-
-			const float eps = 1e-2;
+			 
+			const float eps = 1e-4;
 			if (abs(pd - (p1 + p3)) <= eps && abs(pd - (p2 + p4)) <= eps) {
 				return intersect;
 			}
