@@ -1,7 +1,7 @@
 #pragma once
 
 #include "resource.h"
-#include "../CommonFiles/WindowPlate.h"
+#include "WindowPlate.h"
 
 extern WindowPlate *g_firstWindowPlate;
 extern WindowPlate *g_secondWindowPlate;

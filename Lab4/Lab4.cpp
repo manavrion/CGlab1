@@ -7,13 +7,11 @@
 #include "GraphElement.h"
 #include "GraphPoint.h"
 #include "GraphLine.h"
-#include "GraphWrapCube.h"
 #include "GraphXYZ.h"
-#include "GraphLabel.h"
 
 #include "GraphCube.h"
 
-#include "../CommonFiles/WindowPlate.h"
+#include "WindowPlate.h"
 #include <map>
 #include <set>
 #include <chrono>
@@ -88,9 +86,6 @@ vector<GraphElement*> g_world;
 map<wchar_t, GraphPoint*> targetPoints;
 map<wchar_t, SliderPermition> sliderPermitions;
 
-set<GraphWrapCube*> wrapCubes;
-set<GraphLabel*> wrapLabels;
-
 
 GraphLine *graphLine;
 
@@ -114,24 +109,11 @@ void initCommonElements() {
 
 	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(140, 255, 255, 255)));
 	
-	for (auto &ob : targetPoints) {
-		GraphWrapCube *wrapCube = new GraphWrapCube(*ob.second, Color(160, 160, 255), 1);
-		wrapCube->setVisible(false);
-		wrapCubes.insert(wrapCube);
-		g_world.push_back(wrapCube);
-	}
-	
 	g_world.push_back(graphCube = new GraphCube(0, 50));
 
 	g_world.push_back(graphLine = new GraphLine(*targetPoints[L'M'], *targetPoints[L'N'], Color(170, 255, 170)));
 	g_world.push_back(targetPoints[L'C']);
 
-	for (auto &ob : targetPoints) {
-		GraphLabel *wrapLabel = new GraphLabel(*ob.second, Color::Yellow);
-		wrapLabel->setVisible(false);
-		wrapLabels.insert(wrapLabel);
-		g_world.push_back(wrapLabel);
-	}
 }
 
 

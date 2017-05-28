@@ -4,13 +4,23 @@
 #include "GraphPoint.h"
 #include "Matrix.h"
 
-namespace OldGraphLine {
-#include "../CommonFiles/GraphLine.h"
-}
+struct GraphLine : public GraphElement {
 
-struct GraphLine : public OldGraphLine::GraphLine {
+	GraphLine(GraphPoint &a, GraphPoint &b, Color color, int width = 2)
+		: a(a), b(b),
+		GraphElement(color), width(width) {}
 
-	GraphLine(GraphPoint &a, GraphPoint &b, Color color, int width = 2) : OldGraphLine::GraphLine(a, b, color, width) {}
+	GraphPoint &a;
+	GraphPoint &b;
+	int width;
+
+
+	void paint(Graphics &graphics, PointF center) {
+		if (!visible) return;
+		PointF posA = a.getProjection(center);
+		PointF posB = b.getProjection(center);
+		graphics.DrawLine(&Pen(color, width), posA, posB);
+	};
 
 	void paintPerspective(Graphics &graphics, PointF center, Geometry::GPointF viewPoint) {
 

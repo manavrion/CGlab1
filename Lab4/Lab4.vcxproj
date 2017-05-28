@@ -139,10 +139,8 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GraphCube.h" />
     <ClInclude Include="GraphElement.h" />
-    <ClInclude Include="GraphLabel.h" />
     <ClInclude Include="GraphLine.h" />
     <ClInclude Include="GraphPoint.h" />
-    <ClInclude Include="GraphWrapCube.h" />
     <ClInclude Include="GraphXYZ.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Lab4.h" />

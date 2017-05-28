@@ -40,16 +40,10 @@
     <ClInclude Include="GraphElement.h">
       <Filter>SimpleObjects</Filter>
     </ClInclude>
-    <ClInclude Include="GraphLabel.h">
-      <Filter>SimpleObjects</Filter>
-    </ClInclude>
     <ClInclude Include="GraphLine.h">
       <Filter>SimpleObjects</Filter>
     </ClInclude>
     <ClInclude Include="GraphPoint.h">
-      <Filter>SimpleObjects</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphWrapCube.h">
       <Filter>SimpleObjects</Filter>
     </ClInclude>
     <ClInclude Include="GraphXYZ.h">

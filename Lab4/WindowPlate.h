@@ -1,6 +1,6 @@
 #pragma once
-#include "stdafx.h" 
-
+#include "afx.h"
+#include <string>
 //--------------------------------------------------------------------------------------
 // GDI+ plate
 //--------------------------------------------------------------------------------------
@@ -8,7 +8,7 @@
 
 class WindowPlate {
 public:
-	WindowPlate(function<void(Graphics&, PointF)> paint, Size bufferSize = Size(350, 350)) : paint(paint), bufferSize(bufferSize) {
+	WindowPlate(std::function<void(Graphics&, PointF)> paint, Size bufferSize = Size(350, 350)) : paint(paint), bufferSize(bufferSize) {
 
 		//init backBuffer
 		backBuffer = new byte[bufferSize.Width * bufferSize.Height * 4];
@@ -24,16 +24,25 @@ public:
 
 	}
 
-	void render(HDC hdc, int x, int y) {
+	void render() {
 		backBufferGraphics->Clear(Color(int(0.0f), int(255 * 0.125f), int(255 * 0.3f)));
-
 		paint(*backBufferGraphics, PointF(bufferSize.Width / 2, bufferSize.Height / 2));
+	}
 
+	void paintTimeOfFrame(int time) {
+		backBufferGraphics->DrawString((std::to_wstring(time) + L" ms (" + std::to_wstring(1000 / time) + L" fps)").c_str(), -1, &Gdiplus::Font(L"Arial", 7, FontStyleBold), PointF(1, 4), &Gdiplus::SolidBrush(Gdiplus::Color::White));
+	}
+
+	void blt(HDC hdc, int x, int y) {
 		BitBlt(hdc, x, y, bufferSize.Width, bufferSize.Height, backBufferHDC, 0, 0, SRCCOPY);
 	}
 
 	Size getSize() {
 		return bufferSize;
+	}
+
+	Graphics *getGraphics() {
+		return backBufferGraphics;
 	}
 private:
 	Size bufferSize;
@@ -43,7 +52,7 @@ private:
 	HDC backBufferHDC;//backBuffer hdc
 	Graphics *backBufferGraphics;//graphics
 
-	function<void(Graphics&, PointF)> paint;
+	std::function<void(Graphics&, PointF)> paint;
 
 public:
 	~WindowPlate() {
