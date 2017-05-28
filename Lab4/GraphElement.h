@@ -4,7 +4,7 @@
 
 class GraphElement {
 public:
-	GraphElement(Color color = Color::White) : color(color), visible(true) {}
+	GraphElement(Color color = Color::DarkViolet) : color(color), visible(true) {}
 
 protected:
 	Color color;

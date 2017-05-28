@@ -41,8 +41,6 @@ public:
 	static PointF *getProjection(Geometry::GPointF point, Geometry::GPointF viewPoint);
 	static Geometry::GPointF *getIntersect(Geometry::GPointF point, Geometry::GPointF viewPoint);
 
-	static void debugProjection(Geometry::GPointF point, Geometry::GPointF viewPoint);
-
 public:
 
 	static GMatrix getXRotateMatrix(float a) {

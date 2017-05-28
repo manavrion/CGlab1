@@ -107,11 +107,11 @@ void initCommonElements() {
 	sliderPermitions[L'C'] = SliderPermition(Mxn(0, 100, 0, 1), Mxn(0, 100, 0, 1), Mxn(0, 1000, 75*10, 0.1), true, true, false);
 
 
-	g_world.push_back(new GraphXYZ(Color(140, 140, 140), Color(140, 255, 255, 255)));
+	g_world.push_back(new GraphXYZ(Color::LightSlateGray, Color(160, 0, 0, 0)));
 	
 	g_world.push_back(graphCube = new GraphCube(0, 50));
 
-	g_world.push_back(graphLine = new GraphLine(*targetPoints[L'M'], *targetPoints[L'N'], Color(170, 255, 170)));
+	g_world.push_back(graphLine = new GraphLine(*targetPoints[L'M'], *targetPoints[L'N'], Color::DarkOliveGreen));
 	g_world.push_back(targetPoints[L'C']);
 
 }
@@ -186,7 +186,7 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_X1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(targetPoints[obj]->x / sliderPermitions[obj].x.dx));
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Y1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(targetPoints[obj]->y / sliderPermitions[obj].y.dx));
 				SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Z1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)int(targetPoints[obj]->z / sliderPermitions[obj].z.dx));
-
+				
 				EnableWindow(GetDlgItem(hDlg, IDC_SLIDER_X1), !sliderPermitions[obj].lockX);
 				EnableWindow(GetDlgItem(hDlg, IDC_SLIDER_Y1), !sliderPermitions[obj].lockY);
 				EnableWindow(GetDlgItem(hDlg, IDC_SLIDER_Z1), !sliderPermitions[obj].lockZ);
@@ -194,7 +194,7 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_RESETX1), !sliderPermitions[obj].lockX);
 				EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_RESETY1), !sliderPermitions[obj].lockY);
 				EnableWindow(GetDlgItem(hDlg, IDC_BUTTON_RESETZ1), !sliderPermitions[obj].lockZ);
-				
+
 			};
 
 			initSliders(L'C');
@@ -310,38 +310,6 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				}
 			}
 
-
-			if (LOWORD(wParam) == IDC_BUTTON_RESETALL) {
-				for (auto &ob : targetPoints) {
-					if (!sliderPermitions[ob.first].lockX) {
-						targetPoints[ob.first]->x = sliderPermitions[ob.first].x.def * sliderPermitions[ob.first].x.dx;
-					}
-					if (!sliderPermitions[ob.first].lockY) {
-						targetPoints[ob.first]->y = sliderPermitions[ob.first].y.def * sliderPermitions[ob.first].y.dx;
-					}
-					if (!sliderPermitions[ob.first].lockZ) {
-						targetPoints[ob.first]->z = sliderPermitions[ob.first].z.def * sliderPermitions[ob.first].z.dx;
-					}
-				}
-
-				graphCube->resetCube();
-
-				if (!sliderPermitions[buf[0]].lockX) {
-					SendMessage(GetDlgItem(hDlg, IDC_SLIDER_X1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)sliderPermitions[buf[0]].x.def);
-					targetPoints[buf[0]]->x = sliderPermitions[buf[0]].x.def * sliderPermitions[buf[0]].x.dx;
-				}
-				if (!sliderPermitions[buf[0]].lockY) {
-					SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Y1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)sliderPermitions[buf[0]].y.def);
-					targetPoints[buf[0]]->y = sliderPermitions[buf[0]].y.def * sliderPermitions[buf[0]].y.dx;
-				}
-				if (!sliderPermitions[buf[0]].lockZ) {
-					SendMessage(GetDlgItem(hDlg, IDC_SLIDER_Z1), TBM_SETPOS, (WPARAM)TRUE, (LPARAM)sliderPermitions[buf[0]].z.def);
-					targetPoints[buf[0]]->z = sliderPermitions[buf[0]].z.def * sliderPermitions[buf[0]].z.dx;
-				}
-
-				InvalidateRect(hDlg, NULL, false);
-			}
-
 			if (LOWORD(wParam) == IDC_BUTTONSHIFT) {
 				if (Geometry::GPointF(*targetPoints[L'M']) == Geometry::GPointF(*targetPoints[L'N'])) {
 					// run window
@@ -362,14 +330,6 @@ INT_PTR CALLBACK wndProc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam) 
 				}
 			}
 
-
-			if (LOWORD(wParam) == IDC_CHECKBOX_LABELS) {
-				bool flag = SendMessage(GetDlgItem(hDlg, IDC_CHECKBOX_LABELS), BM_GETCHECK, 0, 0);
-				g_debug = flag;
-				graphCube->debug = flag;
-
-				InvalidateRect(hDlg, NULL, false);
-			}
 
 			break;
 		}

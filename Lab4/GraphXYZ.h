@@ -6,11 +6,13 @@
 struct GraphXYZ : public GraphElement {
 
 	GraphXYZ(Color xyzColor, Color textColor) :
-		GraphElement(color),
+		GraphElement(xyzColor),
 		textBrush(textColor),
-		font(L"Arial", 12, FontStyleBold) {}
+		font(L"Arial", 12, FontStyleBold) {
 
-	virtual void init() {
+	}
+
+	void init() {
 		int xyzHeight = 130;
 
 		//xyz
@@ -19,6 +21,7 @@ struct GraphXYZ : public GraphElement {
 		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(0, 0, -xyzHeight), color));
 
 		//xyz arrows
+		/*
 		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(xyzHeight - 20, 0, 10), color));
 		toPaintElements.push_back(new GraphLine(*new GraphPoint(xyzHeight, 0, 0), *new GraphPoint(xyzHeight - 20, 0, -10), color));
 
@@ -26,7 +29,7 @@ struct GraphXYZ : public GraphElement {
 		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, xyzHeight, 0), *new GraphPoint(0, xyzHeight - 20, -10), color));
 
 		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(10, 0, xyzHeight - 20), color));
-		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(-10, 0, xyzHeight - 20), color));
+		toPaintElements.push_back(new GraphLine(*new GraphPoint(0, 0, xyzHeight), *new GraphPoint(-10, 0, xyzHeight - 20), color));*/
 	}
 
 	vector<GraphLine*> toPaintElements;

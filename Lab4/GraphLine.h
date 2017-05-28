@@ -14,7 +14,6 @@ struct GraphLine : public GraphElement {
 	GraphPoint &b;
 	int width;
 
-
 	void paint(Graphics &graphics, PointF center) {
 		if (!visible) return;
 		PointF posA = a.getProjection(center);
@@ -26,9 +25,6 @@ struct GraphLine : public GraphElement {
 
 		if (!visible) return;
 
-		GMatrix::debugProjection(a, viewPoint);
-		GMatrix::debugProjection(b, viewPoint);
-
 		PointF *pos0 = toCenter(GMatrix::getProjection(a, viewPoint), center);
 		PointF *pos1 = toCenter(searchPoint(a, b, viewPoint), center);
 		PointF *pos2 = toCenter(GMatrix::getProjection(b, viewPoint), center);
@@ -39,10 +35,6 @@ struct GraphLine : public GraphElement {
 			drawLine(graphics, pos0, pos1);
 		} else if (pos1 != nullptr && pos2 != nullptr) {
 			drawLine(graphics, pos1, pos2);
-		} else {
-			delete pos0;
-			delete pos1;
-			delete pos2;
 		}
 
 		delete pos0;

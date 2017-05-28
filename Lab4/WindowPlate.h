@@ -25,7 +25,7 @@ public:
 	}
 
 	void render() {
-		backBufferGraphics->Clear(Color(int(0.0f), int(255 * 0.125f), int(255 * 0.3f)));
+		backBufferGraphics->Clear(Color(int(255 *1.f), int(255 * 1.f), int(255 * 1.f)));
 		paint(*backBufferGraphics, PointF(bufferSize.Width / 2, bufferSize.Height / 2));
 	}
 

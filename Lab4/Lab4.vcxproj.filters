@@ -52,6 +52,9 @@
     <ClInclude Include="Geometry.h">
       <Filter>SimpleObjects</Filter>
     </ClInclude>
+    <ClInclude Include="WindowPlate.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

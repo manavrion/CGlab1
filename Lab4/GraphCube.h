@@ -9,11 +9,9 @@
 
 struct GraphCube : public GraphElement {
 
-	GraphCube(float center, float lineSz) : center(center), lineSz(lineSz), debug(false) {
+	GraphCube(float center, float lineSz) : center(center), lineSz(lineSz) {
 		initLines();
 	}
-
-	bool debug;
 protected:
 
 	float center;
@@ -82,28 +80,12 @@ protected:
 		updatePlates();
 		Geometry::GLine mainvect(viewPoint, point);
 		
-		//mainvect.p1.z += 25;
-		//mainvect.p1.x = 0;
-
-		Color d_color(rand() % 255, rand() % 255, rand() % 255);
-
-		if (debug && debug_graphics != nullptr) {
-			GraphPoint d_p1(mainvect.p1.x, mainvect.p1.y, mainvect.p1.z);
-			GraphPoint d_p2(mainvect.p2.x, mainvect.p2.y, mainvect.p2.z);
-			GraphLine debug_v(d_p1, d_p2, d_color, 1);
-			debug_v.paint(*debug_graphics, center);
-		}
-		
 		bool ret = true;
 
 		for (auto &plate : plates) {
 			Geometry::GPointF *tmp = plate.intersectWithLine(mainvect);
 
 			if (tmp != nullptr) {
-				if (debug && debug_graphics != nullptr) {
-					GraphPoint d_p(tmp->x, tmp->y, tmp->z, d_color);
-					d_p.paint(*debug_graphics, center);
-				}
 				delete tmp;
 				ret = false;
 			}
@@ -115,11 +97,8 @@ protected:
 
 
 public:
-	Graphics *debug_graphics = nullptr;
 	void paint(Graphics &graphics, PointF center) {
 		if (!visible) return;
-
-		debug_graphics = &graphics;
 
 		for (auto &ob : lines) {
 			ob.paint(graphics, center);
